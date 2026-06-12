@@ -36,7 +36,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
         body { background: var(--bg-gradient); color: var(--text-color); transition: 0.5s ease; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; background-attachment: fixed; }
         
-        /* સ્પ્લેશ સ્ક્રીન */
+        /* Splash Screen */
         #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-gradient); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s ease; }
         #splash-screen h1 { font-size: 30px; font-weight: 600; color: var(--text-color); animation: pulse 1s infinite alternate; text-align: center; }
         #splash-screen p { font-size: 13px; opacity: 0.7; margin-top: 10px; color: var(--text-color); }
@@ -81,9 +81,10 @@
         .btn-secondary { background: var(--input-bg); border: 2px solid var(--border-color); color: var(--text-color); }
         .btn-secondary:hover { background: #667eea; color: white; border-color: #667eea; }
         
-        /* 🚀 Google AI Box Iframe CSS */
-        .google-iframe-wrap { width: 100%; height: 350px; border-radius: 16px; border: 2px solid var(--border-color); overflow: hidden; margin-top: 15px; background: white; box-shadow: inset 0 2px 8px var(--shadow-color); }
-        iframe { width: 100%; height: 100%; border: none; }
+        /* 🚀 નવી પ્રોફેશનલ ડિક્શનરી રિઝલ્ટ બોક્સ ડિઝાઇન */
+        .dict-result-box { width: 100%; margin-top: 15px; padding: 15px; border-radius: 16px; border: 2px solid var(--border-color); background: var(--input-bg); box-shadow: inset 0 2px 8px var(--shadow-color); min-height: 150px; max-height: 300px; overflow-y: auto; text-align: left; }
+        .dict-word-title { font-size: 20px; font-weight: 600; color: #667eea; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; margin-bottom: 10px; }
+        .dict-meaning-item { margin-bottom: 8px; font-size: 14px; line-height: 1.5; }
 
         /* Modal Design */
         .modal { display: flex; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); justify-content: center; align-items: center; padding: 10px; }
@@ -127,7 +128,6 @@
             .modal-content { padding: 15px; }
             .modal-header h3 { font-size: 18px; }
             #counter { font-size: 11px !important; }
-            .google-iframe-wrap { height: 280px; }
         }
         @media (min-width: 768px) { .text-panels { flex-direction: row; gap: 25px; } textarea { height: 250px !important; } }
     </style>
@@ -154,7 +154,7 @@
         <h3 style="padding-bottom: 15px; border-bottom: 1px solid var(--border-color); margin-bottom: 15px;">Menu</h3>
         <ul class="sidebar-menu">
             <li><a href="#" onclick="showSection('translator')">🏠 Home (હોમ)</a></li>
-            <li><a href="#" onclick="showSection('dictionary')">📖 Smart Google AI</a></li>
+            <li><a href="#" onclick="showSection('dictionary')">📖 Pro Dictionary</a></li>
             <li><a href="#" onclick="showSection('history')">📜 History (હિસ્ટ્રી)</a></li>
             <li><a href="#" onclick="showSection('settings')">⚙️ Settings (સેટિંગ્સ)</a></li>
             <li><a href="#" onclick="shareApp()">🔗 Share App (એપ શેર કરો)</a></li>
@@ -197,16 +197,16 @@
         </div>
 
         <div class="container hidden" id="dictionary-section">
-            <h2>📖 Smart Google AI Search</h2>
-            <p style="font-size: 13px; opacity: 0.8; margin-top: 5px;">કોઈપણ શબ્દ લખો અને "Search AI" દબાવો (જવાબ નીચે જ દેખાશે):</p>
+            <h2>📖 Premium Multi-Language Dictionary</h2>
+            <p style="font-size: 13px; opacity: 0.8; margin-top: 5px;">કોઈપણ અંગ્રેજી શબ્દ લખો (દા.ત. Knowledge, Education, Happy):</p>
             
             <div style="display: flex; gap: 8px; margin-top: 10px; align-items: center;">
-                <input type="text" id="dictInput" placeholder="અહીં લખો... દા.ત. Meaning of Happy" style="flex: 1; padding: 12px; border-radius: 12px; border:2px solid var(--border-color); background:var(--input-bg); color:var(--text-color); font-size:15px; outline: none;">
-                <button class="btn btn-primary" style="padding: 12px 20px;" onclick="searchGoogleAI()">Search AI 🚀</button>
+                <input type="text" id="dictInput" placeholder="Enter English word here..." style="flex: 1; padding: 12px; border-radius: 12px; border:2px solid var(--border-color); background:var(--input-bg); color:var(--text-color); font-size:15px; outline: none;">
+                <button class="btn btn-primary" style="padding: 12px 20px;" onclick="searchNewDictionary()">Search 🔍</button>
             </div>
             
-            <div class="google-iframe-wrap">
-                <iframe id="googleFrame" src="about:blank"></iframe>
+            <div class="dict-result-box" id="dictResult">
+                <div style="text-align: center; opacity: 0.6; padding-top: 40px; font-size: 14px;">તમારો અર્થ અહીં એકદમ સુંદર રીતે દેખાશે! ✨</div>
             </div>
         </div>
 
@@ -303,7 +303,7 @@
                 <button class="btn btn-primary" onclick="submitRating()">Submit ✨</button>
             </div>
         </div>
-            </div>
+    </div>
         <script>
         const languages = { "af": "Afrikaans", "sq": "Albanian", "am": "Amharic", "ar": "Arabic", "hy": "Armenian", "bn": "Bengali", "bg": "Bulgarian", "my": "Burmese", "zh": "Chinese", "hr": "Croatian", "cs": "Czech", "da": "Danish", "nl": "Dutch", "en": "English", "et": "Estonian", "fi": "Finnish", "fr": "French", "ka": "Georgian", "de": "German", "el": "Greek", "gu": "Gujarati", "he": "Hebrew", "hi": "Hindi", "hu": "Hungarian", "is": "Icelandic", "id": "Indonesian", "it": "Italian", "ja": "Japanese", "kn": "Kannada", "kk": "Kazakh", "km": "Khmer", "ko": "Korean", "lo": "Lao", "la": "Latin", "lv": "Latvian", "lt": "Lithuanian", "ms": "Malay", "ml": "Malayalam", "mr": "Marathi", "ne": "Nepali", "no": "Norwegian", "fa": "Persian", "pl": "Polish", "pt": "Portuguese", "pa": "Punjabi", "ro": "Romanian", "ru": "Russian", "sr": "Serbian", "si": "Sinhala", "sk": "Slovak", "sl": "Slovenian", "es": "Spanish", "sw": "Swahili", "sv": "Swedish", "ta": "Tamil", "te": "Telugu", "th": "Thai", "tr": "Turkish", "uk": "Ukrainian", "ur": "Urdu", "uz": "Uzbek", "vi": "Vietnamese", "cy": "Welsh", "zu": "Zulu" };
 
@@ -326,13 +326,49 @@
             }
         });
 
-        // 🚀 Google AI Search Logic (In-App)
-        function searchGoogleAI() {
-            let query = document.getElementById('dictInput').value.trim();
-            if(!query) { alert("કંઈક લખો ભાઈ! ⌨️"); return; }
-            let frame = document.getElementById('googleFrame');
-            // ગુગલ સર્ચને સેક્યોર રીતે આપણી જ એપની ફ્રેમમાં લોડ કરશે
-            frame.src = `https://www.google.com/search?q=${encodeURIComponent(query)}&igu=1`;
+        // 🚀 ઓરિજિનલ મલ્ટી-લેંગ્વેજ ડિક્શનરી કોડ
+        async function searchNewDictionary() {
+            let word = document.getElementById('dictInput').value.trim();
+            let resultBox = document.getElementById('dictResult');
+            if(!word) { alert("Please type a word!"); return; }
+            
+            resultBox.innerHTML = `<div style="text-align:center; padding-top:40px; font-weight:500;">Searching meaning... ⏳</div>`;
+            
+            try {
+                // 1. English API માંથી વ્યાખ્યા લાવીશું
+                let dictRes = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word.toLowerCase()}`);
+                let dictData = await dictRes.json();
+                
+                // 2. સમાંતરમાં ગુજરાતી અને હિન્દી અર્થ પણ ટ્રાન્સલેટ કરી લાવીશું
+                let guRes = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=en|gu`);
+                let guData = await guRes.json();
+                let guMeaning = guData.responseData.translatedText;
+
+                let hiRes = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=en|hi`);
+                let hiData = await hiRes.json();
+                let hiMeaning = hiData.responseData.translatedText;
+
+                if(!dictRes.ok) {
+                    // જો ઇંગ્લિશ ડિક્શનરીમાં ન મળે તો પણ ટ્રાન્સલેશન બતાવીશું
+                    resultBox.innerHTML = `
+                        <div class="dict-word-title">🔍 ${word.toUpperCase()}</div>
+                        <div class="dict-meaning-item"><strong>ગુજરાતી અર્થ:</strong> ${guMeaning}</div>
+                        <div class="dict-meaning-item"><strong>हिन्दी अर्थ:</strong> ${hiMeaning}</div>
+                    `;
+                } else {
+                    let pos = dictData[0].meanings[0].partOfSpeech;
+                    let def = dictData[0].meanings[0].definitions[0].definition;
+                    
+                    resultBox.innerHTML = `
+                        <div class="dict-word-title">📖 ${word.toUpperCase()} <span style="font-size:12px; color:gray; font-weight:normal;">(${pos})</span></div>
+                        <div class="dict-meaning-item" style="margin-bottom:12px;"><strong>ગુજરાતી અર્થ:</strong> <span style="color:#764ba2; font-weight:600;">${guMeaning}</span></div>
+                        <div class="dict-meaning-item" style="margin-bottom:12px;"><strong>हिन्दी अर्थ:</strong> <span style="color:#667eea; font-weight:600;">${hiMeaning}</span></div>
+                        <div class="dict-meaning-item" style="border-top:1px dashed #ccc; padding-top:8px;"><strong>English Definition:</strong> ${def}</div>
+                    `;
+                }
+            } catch(e) {
+                resultBox.innerHTML = `<div style="text-align:center; color:red; padding-top:40px;">ઇન્ટરનેટ કનેક્શન ચેક કરો ભાઈ! ❌</div>`;
+            }
         }
 
         function openInstallModal() { document.getElementById('installModal').classList.remove('hidden'); toggleMenu(); }
@@ -347,7 +383,7 @@
         function showSection(id) { 
             document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
             document.getElementById(id + '-section').classList.remove('hidden');
-            let titles = { 'translator': '✨ Pro Translator', 'dictionary': '📖 Smart Google AI', 'history': '📜 History', 'settings': '⚙️ Settings' };
+            let titles = { 'translator': '✨ Pro Translator', 'dictionary': '📖 Pro Dictionary', 'history': '📜 History', 'settings': '⚙️ Settings' };
             document.getElementById('page-title').innerText = titles[id];
             if(id === 'history') displayHistory(); toggleMenu(); 
         }
@@ -381,3 +417,4 @@
     </script>
 </body>
 </html>
+    
