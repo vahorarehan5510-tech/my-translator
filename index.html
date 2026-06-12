@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Premium Pro Translator</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="manifest" href="manifest.json">
     <style>
         :root {
             --bg-gradient: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
@@ -37,11 +36,11 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
         body { background: var(--bg-gradient); color: var(--text-color); transition: 0.5s ease; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; background-attachment: fixed; }
         
-        /* 🚀 સ્પ્લેશ સ્ક્રીન (વેલકમ એનિમેશન) CSS */
-        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-gradient); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.6s ease; }
-        #splash-screen h1 { font-size: 32px; font-weight: 600; color: var(--text-color); animation: pulse 1s infinite alternate; text-align: center; }
-        #splash-screen p { font-size: 14px; opacity: 0.7; margin-top: 10px; color: var(--text-color); }
-        @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.08); } }
+        /* સ્પ્લેશ સ્ક્રીન */
+        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-gradient); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s ease; }
+        #splash-screen h1 { font-size: 30px; font-weight: 600; color: var(--text-color); animation: pulse 1s infinite alternate; text-align: center; }
+        #splash-screen p { font-size: 13px; opacity: 0.7; margin-top: 10px; color: var(--text-color); }
+        @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.06); } }
 
         .navbar { display: flex; align-items: center; justify-content: space-between; padding: 15px 30px; background: var(--nav-bg); backdrop-filter: blur(15px); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 900; }
         .nav-left { display: flex; align-items: center; gap: 15px; }
@@ -82,6 +81,10 @@
         .btn-secondary { background: var(--input-bg); border: 2px solid var(--border-color); color: var(--text-color); }
         .btn-secondary:hover { background: #667eea; color: white; border-color: #667eea; }
         
+        /* 🚀 Google AI Box Iframe CSS */
+        .google-iframe-wrap { width: 100%; height: 350px; border-radius: 16px; border: 2px solid var(--border-color); overflow: hidden; margin-top: 15px; background: white; box-shadow: inset 0 2px 8px var(--shadow-color); }
+        iframe { width: 100%; height: 100%; border: none; }
+
         /* Modal Design */
         .modal { display: flex; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); justify-content: center; align-items: center; padding: 10px; }
         .modal-content { background: var(--box-bg); backdrop-filter: blur(25px); padding: 20px; border-radius: 20px; width: 100%; max-width: 450px; border: 1px solid var(--border-color); box-shadow: 0 15px 40px var(--shadow-color); display: flex; flex-direction: column; max-height: 90vh; animation: scaleUp 0.3s ease; }
@@ -124,6 +127,7 @@
             .modal-content { padding: 15px; }
             .modal-header h3 { font-size: 18px; }
             #counter { font-size: 11px !important; }
+            .google-iframe-wrap { height: 280px; }
         }
         @media (min-width: 768px) { .text-panels { flex-direction: row; gap: 25px; } textarea { height: 250px !important; } }
     </style>
@@ -142,7 +146,7 @@
             </button>
             <h2 id="page-title" style="font-weight: 600; font-size: 18px; white-space: nowrap; margin: 0;">✨ Pro Translator</h2>
         </div>
-        <button class="btn btn-secondary" style="border-radius: 50%; width: 38px; height: 38px; padding: 0; display: flex; justify-content: center; align-items: center; font-size: 18px; flex-shrink: 0;" onclick="toggleDarkMode()" title="Change Theme">🌗</button>
+        <button class="btn btn-secondary" style="border-radius: 50%; width: 38px; height: 38px; padding: 0; display: flex; justify-content: center; align-items: center; font-size: 18px; flex-shrink: 0;" onclick="toggleDarkMode()">🌗</button>
     </div>
 
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
@@ -150,11 +154,11 @@
         <h3 style="padding-bottom: 15px; border-bottom: 1px solid var(--border-color); margin-bottom: 15px;">Menu</h3>
         <ul class="sidebar-menu">
             <li><a href="#" onclick="showSection('translator')">🏠 Home (હોમ)</a></li>
-            <li><a href="#" onclick="showSection('dictionary')">📖 Dictionary & AI</a></li>
+            <li><a href="#" onclick="showSection('dictionary')">📖 Smart Google AI</a></li>
             <li><a href="#" onclick="showSection('history')">📜 History (હિસ્ટ્રી)</a></li>
             <li><a href="#" onclick="showSection('settings')">⚙️ Settings (સેટિંગ્સ)</a></li>
             <li><a href="#" onclick="shareApp()">🔗 Share App (એપ શેર કરો)</a></li>
-            <li id="installMenu" class="hidden"><a href="#" onclick="installApp()" style="color: #667eea;">📥 Install App (ડાઉનલોડ)</a></li>
+            <li><a href="#" onclick="openInstallModal()" style="color: #667eea; font-weight: bold;">📥 How to Download 📲</a></li>
             <li><a href="#" onclick="openPrivacyModal()">🔒 Privacy Policy</a></li>
         </ul>
     </div>
@@ -193,14 +197,17 @@
         </div>
 
         <div class="container hidden" id="dictionary-section">
-            <h2>📖 Dictionary & AI</h2>
-            <p style="font-size: 13px; opacity: 0.8; margin-top: 5px;">શબ્દનો અર્થ શોધો અથવા Copilot ને સવાલ પૂછો:</p>
-            <input type="text" id="dictInput" placeholder="Enter a word or question here..." style="width:100%; padding:12px; border-radius:12px; border:2px solid var(--border-color); background:var(--input-bg); color:var(--text-color); font-size:15px; margin-top:10px;">
-            <div style="display: flex; gap: 10px; margin-top: 15px;">
-                <button class="btn btn-primary" style="flex: 1; font-size: 13px; padding: 10px;" onclick="searchDictionary()">Dictionary 🔍</button>
-                <button class="btn" style="flex: 1; font-size: 13px; padding: 10px; background: #2b2b2b; color: white; border: 1px solid #444;" onclick="askCopilot()">Ask Copilot 🤖</button>
+            <h2>📖 Smart Google AI Search</h2>
+            <p style="font-size: 13px; opacity: 0.8; margin-top: 5px;">કોઈપણ શબ્દ લખો અને "Search AI" દબાવો (જવાબ નીચે જ દેખાશે):</p>
+            
+            <div style="display: flex; gap: 8px; margin-top: 10px; align-items: center;">
+                <input type="text" id="dictInput" placeholder="અહીં લખો... દા.ત. Meaning of Happy" style="flex: 1; padding: 12px; border-radius: 12px; border:2px solid var(--border-color); background:var(--input-bg); color:var(--text-color); font-size:15px; outline: none;">
+                <button class="btn btn-primary" style="padding: 12px 20px;" onclick="searchGoogleAI()">Search AI 🚀</button>
             </div>
-            <textarea id="dictOutput" readonly placeholder="અર્થ અહીં દેખાશે..." style="margin-top: 15px; height: 120px;"></textarea>
+            
+            <div class="google-iframe-wrap">
+                <iframe id="googleFrame" src="about:blank"></iframe>
+            </div>
         </div>
 
         <div class="container hidden" id="history-section">
@@ -265,6 +272,21 @@
         </div>
     </div>
 
+    <div id="installModal" class="modal hidden">
+        <div class="modal-content" style="text-align: center; padding: 25px 20px;">
+            <div class="modal-header">
+                <h3>📥 ફોનમાં એપ કેવી રીતે ડાઉનલોડ કરવી?</h3>
+                <span class="close-btn" onclick="closeInstallModal()">&times;</span>
+            </div>
+            <div style="text-align: left; font-size: 14px; line-height: 1.8; margin-top: 10px;">
+                <p>૧. તમારા બ્રાઉઝરમાં સૌથી ઉપર જમણી બાજુ આપેલા <strong>ત્રણ ટપકાં (⋮)</strong> પર ક્લિક કરો.</p>
+                <p>૨. ત્યાં મેનુમાં <strong>'Add to Home screen'</strong> અથવા <strong>'Install app'</strong> પર ક્લિક કરો.</p>
+                <p>૩. હવે આપોઆપ આ એપ તમારા ફોનની હોમ સ્ક્રીન પર કોઈ અસલી એપની જેમ સેટ થઈ જશે! 📲✨</p>
+            </div>
+            <button class="btn btn-primary" style="margin-top: 20px; width: 100%;" onclick="closeInstallModal()">સમજી ગયો 👍</button>
+        </div>
+    </div>
+
     <div id="ratingModal" class="modal hidden">
         <div class="modal-content" style="text-align: center; padding: 30px 20px;">
             <h3 style="margin-bottom: 5px; font-size: 20px;">⭐ Rate Our App</h3>
@@ -281,51 +303,40 @@
                 <button class="btn btn-primary" onclick="submitRating()">Submit ✨</button>
             </div>
         </div>
-    </div>
+            </div>
         <script>
         const languages = { "af": "Afrikaans", "sq": "Albanian", "am": "Amharic", "ar": "Arabic", "hy": "Armenian", "bn": "Bengali", "bg": "Bulgarian", "my": "Burmese", "zh": "Chinese", "hr": "Croatian", "cs": "Czech", "da": "Danish", "nl": "Dutch", "en": "English", "et": "Estonian", "fi": "Finnish", "fr": "French", "ka": "Georgian", "de": "German", "el": "Greek", "gu": "Gujarati", "he": "Hebrew", "hi": "Hindi", "hu": "Hungarian", "is": "Icelandic", "id": "Indonesian", "it": "Italian", "ja": "Japanese", "kn": "Kannada", "kk": "Kazakh", "km": "Khmer", "ko": "Korean", "lo": "Lao", "la": "Latin", "lv": "Latvian", "lt": "Lithuanian", "ms": "Malay", "ml": "Malayalam", "mr": "Marathi", "ne": "Nepali", "no": "Norwegian", "fa": "Persian", "pl": "Polish", "pt": "Portuguese", "pa": "Punjabi", "ro": "Romanian", "ru": "Russian", "sr": "Serbian", "si": "Sinhala", "sk": "Slovak", "sl": "Slovenian", "es": "Spanish", "sw": "Swahili", "sv": "Swedish", "ta": "Tamil", "te": "Telugu", "th": "Thai", "tr": "Turkish", "uk": "Ukrainian", "ur": "Urdu", "uz": "Uzbek", "vi": "Vietnamese", "cy": "Welsh", "zu": "Zulu" };
 
         let currentSelecting = 'source'; 
         let typingTimer; let currentSpeechRate = 0.9;
-        let deferredPrompt; // Install app માટે
 
-        // 🚀 Window Load Events (Splash, Auto-Dark, Install Prompt, Rating)
         window.addEventListener('load', () => {
-            // 1. Splash Screen Remove after 2 seconds
             setTimeout(() => {
                 let splash = document.getElementById('splash-screen');
                 splash.style.opacity = '0';
-                setTimeout(() => splash.style.display = 'none', 600);
+                setTimeout(() => splash.style.display = 'none', 500);
             }, 2000);
 
-            // 2. Auto Dark Mode (જો યુઝરનો ફોન ડાર્ક મોડમાં હોય તો)
             if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
                 document.body.classList.add('dark-mode');
             }
 
-            // 3. Smart Rating Timer (15 Seconds)
             if (!localStorage.getItem('app_rated')) {
                 setTimeout(() => { document.getElementById('ratingModal').classList.remove('hidden'); }, 15000);
             }
         });
 
-        // 🚀 Install App Logic (PWA)
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault(); deferredPrompt = e;
-            document.getElementById('installMenu').classList.remove('hidden'); // મેનુમાં બટન બતાવો
-        });
-
-        async function installApp() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') { document.getElementById('installMenu').classList.add('hidden'); }
-                deferredPrompt = null;
-            } else {
-                alert("To install: Click the 3 dots (⋮) in your browser menu and select 'Install app' or 'Add to Home screen'. ✨");
-            }
-            toggleMenu();
+        // 🚀 Google AI Search Logic (In-App)
+        function searchGoogleAI() {
+            let query = document.getElementById('dictInput').value.trim();
+            if(!query) { alert("કંઈક લખો ભાઈ! ⌨️"); return; }
+            let frame = document.getElementById('googleFrame');
+            // ગુગલ સર્ચને સેક્યોર રીતે આપણી જ એપની ફ્રેમમાં લોડ કરશે
+            frame.src = `https://www.google.com/search?q=${encodeURIComponent(query)}&igu=1`;
         }
+
+        function openInstallModal() { document.getElementById('installModal').classList.remove('hidden'); toggleMenu(); }
+        function closeInstallModal() { document.getElementById('installModal').classList.add('hidden'); }
 
         function closeRatingModal() { document.getElementById('ratingModal').classList.add('hidden'); localStorage.setItem('app_rated', 'true'); }
         function submitRating() { let r = document.querySelector('input[name="rating"]:checked'); if (r) { alert(`Thank you for ${r.value} Stars! ✨💖`); localStorage.setItem('app_rated', 'true'); document.getElementById('ratingModal').classList.add('hidden'); } else alert("Please select a star first! ⭐"); }
@@ -336,7 +347,7 @@
         function showSection(id) { 
             document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
             document.getElementById(id + '-section').classList.remove('hidden');
-            let titles = { 'translator': '✨ Pro Translator', 'dictionary': '📖 Dictionary & AI', 'history': '📜 History', 'settings': '⚙️ Settings' };
+            let titles = { 'translator': '✨ Pro Translator', 'dictionary': '📖 Smart Google AI', 'history': '📜 History', 'settings': '⚙️ Settings' };
             document.getElementById('page-title').innerText = titles[id];
             if(id === 'history') displayHistory(); toggleMenu(); 
         }
@@ -348,7 +359,7 @@
         function closeLangModal() { document.getElementById('langModal').classList.add('hidden'); }
         function filterLanguages() { let filter = document.getElementById('langSearch').value.toLowerCase(); let lis = document.getElementById('langList').getElementsByTagName('li'); for(let i=0; i<lis.length; i++) lis[i].style.display = lis[i].innerText.toLowerCase().includes(filter) ? "" : "none"; }
         function selectLanguage(code, name) { if(currentSelecting === 'source') { document.getElementById('sourceLangCode').value = code; document.getElementById('srcLangText').innerText = name; } else { document.getElementById('targetLangCode').value = code; document.getElementById('tgtLangText').innerText = name; } closeLangModal(); translateText(); }
-        function swapLanguages() { let sC = document.getElementById("sourceLangCode").value; let sN = document.getElementById("srcLangText").innerText; let tC = document.getElementById("targetLangCode").value; let tN = document.getElementById("tgtLangText").innerText; document.getElementById("sourceLangCode").value = tC; document.getElementById("srcLangText").innerText = tN; document.getElementById("targetLangCode").value = sC; document.getElementById("tgtLangText").innerText = sN; let inTxt = document.getElementById("inputText").value; let outTxt = document.getElementById("outputText").value; document.getElementById("inputText").value = outTxt; document.getElementById("outputText").value = inTxt; if (document.getElementById("inputText").value.trim() !== "") translateText(); }
+        function swapLanguages() { let sC = document.getElementById("sourceLangCode").value; let sN = document.getElementById("srcLangText").innerText; let tC = document.getElementById("targetLangCode").value; let tN = document.getElementById("tgtLangText").innerText; document.getElementById("sourceLangCode").value = tC; document.getElementById("srcLangText").innerText = tN; document.getElementById("targetLangCode").value = sC; document.getElementById("srcLangText").innerText = sN; let inTxt = document.getElementById("inputText").value; let outTxt = document.getElementById("outputText").value; document.getElementById("inputText").value = outTxt; document.getElementById("outputText").value = inTxt; if (document.getElementById("inputText").value.trim() !== "") translateText(); }
 
         function openPrivacyModal() { document.getElementById('policy-placeholder').classList.remove('hidden'); document.querySelectorAll('.policy-text').forEach(el => el.classList.add('hidden')); document.getElementById('privacyModal').classList.remove('hidden'); toggleMenu(); }
         function closePrivacyModal() { document.getElementById('privacyModal').classList.add('hidden'); }
@@ -358,9 +369,6 @@
         function clearText() { document.getElementById("inputText").value = ""; document.getElementById("outputText").value = ""; document.getElementById('counter').innerText = "0 Words | 0 Chars"; }
         function copyText() { let out = document.getElementById("outputText"); if(out.value && !out.value.includes("Translating")) { navigator.clipboard.writeText(out.value); alert("Text copied! ✨"); } }
         async function translateText() { let text = document.getElementById("inputText").value.trim(); let srcLang = document.getElementById("sourceLangCode").value; let tgtLang = document.getElementById("targetLangCode").value; let outBox = document.getElementById("outputText"); if (!text) { outBox.value = ""; return; } outBox.value = "✨ Translating..."; try { let res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${srcLang}|${tgtLang}`); let data = await res.json(); outBox.value = data.responseData.translatedText; saveToHistory(text, outBox.value, languages[srcLang], languages[tgtLang]); } catch (e) { outBox.value = "Error translating. Check connection."; } }
-
-        async function searchDictionary() { let word = document.getElementById('dictInput').value.trim().toLowerCase(); let output = document.getElementById('dictOutput'); if(!word) { alert("Please enter a word."); return; } output.value = `Searching meaning... 🔍`; try { let res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`); let data = await res.json(); if(!res.ok) { output.value = `માફ કરશો, શબ્દ મળ્યો નથી!`; } else { output.value = `Word: ${word.toUpperCase()}\n\n📖 Meaning: ${data[0].meanings[0].definitions[0].definition}\n💡 Example: ${data[0].meanings[0].definitions[0].example || "N/A"}`; } } catch(e) { output.value = "Internet error."; } }
-        function askCopilot() { let question = document.getElementById('dictInput').value.trim(); if(!question) { alert("Please type a question for Copilot! 🤖"); return; } window.open(`https://copilot.microsoft.com/?q=${encodeURIComponent(question)}`, '_blank'); }
 
         function saveToHistory(src, tgt, srcL, tgtL) { let hist = JSON.parse(localStorage.getItem("translation_history")) || []; if (hist.length > 0 && hist[0].sourceText === src) return; hist.unshift({ sourceText: src, targetText: tgt, srcLang: srcL, tgtLang: tgtL }); if (hist.length > 20) hist.pop(); localStorage.setItem("translation_history", JSON.stringify(hist)); }
         function displayHistory() { let hist = JSON.parse(localStorage.getItem("translation_history")) || []; let list = document.getElementById("historyList"); list.innerHTML = ""; if (hist.length === 0) { list.innerHTML = '<div style="text-align:center; opacity:0.7;">No history found.</div>'; return; } hist.forEach((item) => { list.innerHTML += `<div class="history-item"><div style="color:#667eea; font-size:12px; font-weight:bold; margin-bottom:5px;">${item.srcLang} ➔ ${item.tgtLang}</div><div><strong style="opacity:0.8;">Original:</strong> <br>${item.sourceText}</div><div style="margin-top:5px;"><strong style="opacity:0.8;">Translated:</strong> <br>${item.targetText}</div></div>`; }); }
