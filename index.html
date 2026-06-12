@@ -76,7 +76,22 @@
         .controls { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 20px; }
         select { padding: 10px 15px; border-radius: 12px; border: 2px solid var(--border-color); background: var(--input-bg); color: var(--text-color); font-size: 15px; font-weight: 500; outline: none; cursor: pointer; width: 42%; transition: all 0.3s ease; }
         select:focus { border-color: #667eea; }
-        .swap-btn { background: var(--input-bg); border: 2px solid var(--border-color); border-radius: 50%; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-color); font-size: 20px; box-shadow: 0 5px 15px var(--shadow-color); transition: 0.4s ease; }
+        
+        .swap-btn { 
+            background: var(--input-bg); 
+            border: 2px solid var(--border-color); 
+            border-radius: 50%; 
+            width: 45px; 
+            height: 45px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            color: var(--text-color); 
+            font-size: 20px; 
+            box-shadow: 0 5px 15px var(--shadow-color); 
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s;
+        }
         .swap-btn:hover { transform: scale(1.1); }
         
         .text-panels { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 15px; }
@@ -231,10 +246,10 @@
         </div>
 
     </div>
-
     <script>
         let typingTimer; 
         let currentSpeechRate = 0.9; 
+        let currentRotation = 0; // સ્વેપ એનિમેશન રોટેશન ફિક્સ વેરિયેબલ
 
         function toggleMenu() {
             document.getElementById('sidebar').classList.toggle('active');
@@ -308,29 +323,33 @@
 
         /* --- એપ શેર --- */
         function shareApp() {
-            let link = "https://pro-translator.netlify.app"; 
+            let link = "https://vahorarehan5510-tech.github.io/my-translator/"; 
             let text = encodeURIComponent(`હેલો! આ એકદમ શાનદાર 'Premium Pro Translator' એપ છે. 🚀\n\nઆમાં બધી ભાષાઓનું ટ્રાન્સલેશન, વોઇસ ટાઇપિંગ, સ્પીકર અને ડિક્શનરી બધું જ એકદમ ફ્રી છે. એકવાર જરૂર ટ્રાય કરવા જેવું છે:\n${link}`);
             window.open(`https://wa.me/?text=${text}`, '_blank');
         }
 
-        /* --- સીધો તમારા નંબર પર વોટ્સએપ મેસેજ --- */
+        /* --- વોટ્સએપ મેસેજ --- */
         function sendFeedback() {
             let text = encodeURIComponent("Hi Rehan, I used your Pro Translator App and I want to say that...");
-            // તમારો નંબર 9016929061 
             window.open(`https://wa.me/919016929061?text=${text}`, '_blank');
         }
 
+        /* --- લેંગ્વેજ સ્વેપ ફંક્શન ફિક્સ --- */
         function swapLanguages() {
             const swapBtn = document.getElementById('swap-icon');
-            currentRotation += 180; swapBtn.style.transform = `rotate(${currentRotation}deg) scale(1.1)`;
-            setTimeout(() => swapBtn.style.transform = `rotate(${currentRotation}deg) scale(1)`, 200);
+            currentRotation += 180; 
+            swapBtn.style.transform = `rotate(${currentRotation}deg)`;
 
             let src = document.getElementById("sourceLang"), tgt = document.getElementById("targetLang");
             let temp = src.value; src.value = tgt.value; tgt.value = temp;
 
             let inTxt = document.getElementById("inputText"), outTxt = document.getElementById("outputText");
             let tempTxt = inTxt.value; inTxt.value = outTxt.value; outTxt.value = tempTxt;
+            
             updateCounter();
+            if (inTxt.value.trim() !== "") {
+                translateText();
+            }
         }
 
         function clearText() { document.getElementById("inputText").value = ""; document.getElementById("outputText").value = ""; updateCounter(); }
@@ -388,10 +407,11 @@
             } else { alert("Nothing to speak!"); }
         }
 
+        /* --- વોટ્સએપ પર વેબસાઈટના નામ સાથે ટેક્સ્ટ શેર કરવાનું ફંક્શન --- */
         function shareTranslation() {
             let text = document.getElementById('outputText').value;
             if(text && !text.includes("Translating") && text.trim() !== "") {
-                window.open(`https://wa.me/?text=${encodeURIComponent("Translated:\n\n" + text)}`, '_blank');
+                window.open(`https://wa.me/?text=${encodeURIComponent("Translated by Pro Translator ✨:\n\n" + text)}`, '_blank');
             } else { alert("Translate some text first!"); }
         }
 
@@ -418,4 +438,4 @@
         function clearHistory() { if(confirm("Delete all history?")) { localStorage.removeItem("translation_history"); displayHistory(); } }
     </script>
 </body>
-</html>
+</html> 
