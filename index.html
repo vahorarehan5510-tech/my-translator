@@ -44,7 +44,7 @@
         .menu-btn { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 6px; z-index: 1001; }
         .menu-btn span { display: block; width: 26px; height: 3px; background-color: var(--text-color); border-radius: 3px; }
         
-        .sidebar { position: fixed; top: 0; left: -320px; width: 280px; height: 100%; background: var(--sidebar-bg); box-shadow: 5px 0 25px var(--shadow-color); transition: 0.4s; z-index: 1000; padding: 30px 20px; }
+        .sidebar { position: fixed; top: 0; left: -320px; width: 280px; height: 100%; background: var(--sidebar-bg); box-shadow: 5px 0 25px var(--shadow-color); transition: 0.4s; z-index: 1000; padding: 30px 20px; overflow-y: auto; }
         .sidebar.active { transform: translateX(320px); }
         .sidebar-menu { list-style: none; margin-top: 20px; }
         .sidebar-menu li { margin-bottom: 10px; }
@@ -54,7 +54,6 @@
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 999; }
         .overlay.active { display: block; }
         
-        /* 🚀 નવો ચેન્જ: મોટો વ્હાઇટ ડબ્બો (Container) કાઢી નાખ્યો, ફક્ત બોક્સ દેખાશે */
         .main-content { flex: 1; display: flex; flex-direction: column; padding: 20px 15px; width: 100%; max-width: 650px; margin: 0 auto; gap: 15px; }
         .container { width: 100%; display: flex; flex-direction: column; gap: 15px; }
         .hidden { display: none !important; }
@@ -79,9 +78,27 @@
         .btn-primary { background: var(--primary-gradient); color: white; width: 100%; margin-top: 5px; }
         .btn-secondary { background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); }
         
-        .dict-result-box { width: 100%; margin-top: 5px; padding: 15px; border-radius: 20px; border: 1px solid var(--border-color); background: var(--input-bg); min-height: 140px; box-shadow: 0 4px 20px var(--shadow-color); }
-        .dict-word-title { font-size: 18px; font-weight: 600; color: #667eea; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; margin-bottom: 10px; }
-        .dict-meaning-item { margin-bottom: 6px; font-size: 14px; }
+        /* ડિક્શનરી ડિઝાઇન */
+        .dict-result-card { background: var(--input-bg); border-radius: 24px; padding: 20px; border: 1px solid var(--border-color); box-shadow: 0 8px 25px var(--shadow-color); margin-top: 5px; width: 100%; display: flex; flex-direction: column; gap: 12px; text-align: left; }
+        .dict-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+        .dict-title-word { font-size: 22px; font-weight: 600; color: #667eea; text-transform: capitalize; }
+        .dict-badge { font-size: 11px; background: rgba(102, 126, 234, 0.15); color: #667eea; padding: 3px 10px; border-radius: 20px; font-weight: 600; text-transform: uppercase; }
+        .meaning-row { background: rgba(0,0,0,0.02); padding: 10px 14px; border-radius: 14px; font-size: 15px; border-left: 4px solid #667eea; }
+        .def-section { font-size: 14px; color: var(--text-color); opacity: 0.9; line-height: 1.6; }
+
+        /* AI ચેટબોક્સ WhatsApp લુક */
+        .chat-area { width: 100%; height: 350px; background: var(--input-bg); border-radius: 24px; border: 1px solid var(--border-color); box-shadow: 0 4px 20px var(--shadow-color); padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+        .msg { max-width: 80%; padding: 10px 16px; border-radius: 18px; font-size: 15px; line-height: 1.5; word-wrap: break-word; }
+        .msg-user { background: var(--primary-gradient); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+        .msg-ai { background: rgba(0,0,0,0.04); color: var(--text-color); align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid var(--border-color); }
+        .dark-mode .msg-ai { background: rgba(255,255,255,0.05); }
+        
+        .chat-input-wrap { display: flex; gap: 8px; width: 100%; align-items: center; background: var(--input-bg); padding: 8px 12px; border-radius: 20px; box-shadow: 0 4px 15px var(--shadow-color); border: 1px solid var(--border-color); }
+        .chat-input { flex: 1; border: none; background: transparent; color: var(--text-color); font-size: 15px; outline: none; padding: 8px 0; }
+
+        /* 🚀 પ્રાઇવસી પોલિસી ટેક્સ્ટ સ્ટાઇલ */
+        .policy-content-text { text-align: left; font-size: 14px; line-height: 1.7; margin-top: 10px; max-height: 250px; overflow-y: auto; padding-right: 5px; }
+        .policy-content-text p { margin-bottom: 12px; }
 
         /* Modal Design */
         .modal { display: flex; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); backdrop-filter: blur(5px); justify-content: center; align-items: center; padding: 15px; }
@@ -103,7 +120,7 @@
         .rating-stars label { font-size: 35px; color: #ccc; cursor: pointer; text-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .rating-stars input:checked ~ label, .rating-stars label:hover, .rating-stars label:hover ~ label { color: #ffcc00; }
 
-        @media (min-width: 768px) { .text-panels { flex-direction: row; gap: 20px; } textarea { height: 220px !important; } .text-box-wrap { flex: 1; } .main-content { max-width: 900px; } }
+        @media (min-width: 768px) { .text-panels { flex-direction: row; gap: 20px; } textarea { height: 220px !important; } .text-box-wrap { flex: 1; } .main-content { max-width: 900px; } .chat-area { height: 420px; } }
     </style>
 </head>
     <body>
@@ -129,6 +146,7 @@
         <ul class="sidebar-menu">
             <li><a href="#" onclick="showSection('translator')">🏠 Home (હોમ)</a></li>
             <li><a href="#" onclick="showSection('dictionary')">📖 Pro Dictionary</a></li>
+            <li><a href="#" onclick="showSection('aichat')">🤖 Gemini AI Chat</a></li>
             <li><a href="#" onclick="showSection('history')">📜 History (હિસ્ટ્રી)</a></li>
             <li><a href="#" onclick="showSection('settings')">⚙️ Settings (સેટિંગ્સ)</a></li>
             <li><a href="#" onclick="shareApp()">🔗 Share App (એપ શેર કરો)</a></li>
@@ -175,13 +193,23 @@
         </div>
 
         <div class="container hidden" id="dictionary-section">
-            <div class="text-box-wrap" style="gap: 10px;">
-                <h3 style="font-size: 16px; font-weight: 600;">📖 Multi-Language Dictionary</h3>
-                <input type="text" id="dictInput" placeholder="Enter English word here..." style="width: 100%; padding: 12px; border-radius: 14px; border:1px solid var(--border-color); background:var(--bg-gradient); color:var(--text-color); font-size:15px; outline: none; background-image: none;">
-                <button class="btn btn-primary" onclick="searchNewDictionary()">Search Meaning 🔍</button>
+            <div class="text-box-wrap" style="gap: 12px;">
+                <h3 style="font-size: 16px; font-weight: 600;">📖 Premium Word Dictionary</h3>
+                <p style="font-size: 12px; opacity: 0.7; margin-top: -5px;">અંગ્રેજી શબ્દ લખીને સર્ચ કરો (દા.ત. Beautiful, School):</p>
+                <input type="text" id="dictInput" placeholder="Enter English word..." style="width: 100%; padding: 12px; border-radius: 14px; border:1px solid var(--border-color); background:var(--bg-gradient); color:var(--text-color); font-size:15px; outline: none; background-image: none;">
+                <button class="btn btn-primary" onclick="searchSmartDictionary()">Search Word 🔍</button>
             </div>
-            
-            <div class="dict-result-box hidden" id="dictResult"></div>
+            <div id="dictResultContainer"></div>
+        </div>
+
+        <div class="container hidden" id="aichat-section">
+            <div class="chat-area" id="chatScreen">
+                <div class="msg msg-ai">નમસ્તે ભાઈ! હું Gemini AI છું. કંઈપણ પૂછવા માટે નીચે મેસેજ ટાઈપ કરો! 🤖✨</div>
+            </div>
+            <div class="chat-input-wrap">
+                <input type="text" id="chatInput" class="chat-input" placeholder="Gemini ને કંઈપણ પૂછો..." onkeypress="if(event.key === 'Enter') sendToGemini()">
+                <button class="icon-btn" style="background: var(--primary-gradient); color: white;" onclick="sendToGemini()">➔</button>
+            </div>
         </div>
 
         <div class="container hidden" id="history-section">
@@ -194,12 +222,17 @@
 
         <div class="container hidden" id="settings-section">
             <div class="text-box-wrap" style="gap: 15px;">
-                <h3 style="font-size: 16px; font-weight: 600;">⚙️ Settings & Themes</h3>
-                <div>
+                <h3 style="font-size: 16px; font-weight: 600;">⚙️ Settings & API Configuration</h3>
+                <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <label style="font-size: 14px; font-weight: 500;">🔑 Enter Gemini API Key:</label>
+                    <input type="password" id="apiKeyInput" placeholder="AI ચેટ ચાલુ કરવા માટે અહી કી પેસ્ટ કરો..." style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-gradient); color: var(--text-color); font-size: 14px; outline: none; background-image: none;">
+                    <button class="btn btn-primary" style="padding: 10px;" onclick="saveApiKey()">Save Key ✨</button>
+                </div>
+                <div style="border-top: 1px solid var(--border-color); padding-top: 15px;">
                     <label style="font-size: 14px;">🗣️ Voice Speed: <strong id="speedVal">0.9</strong>x</label>
                     <input type="range" min="0.5" max="1.5" step="0.1" value="0.9" onchange="updateSpeed(this.value)" style="width: 100%; margin-top: 8px;">
                 </div>
-                <div style="border-top: 1px solid var(--border-color); padding-top: 10px;">
+                <div style="border-top: 1px solid var(--border-color); padding-top: 15px;">
                     <label style="font-size: 14px;">🎨 Select Theme Color:</label>
                     <div class="theme-boxes">
                         <div class="theme-box" style="background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);" onclick="changeTheme('default')"></div>
@@ -229,21 +262,32 @@
                 <h3 style="font-size: 16px;">🔒 Privacy Policy</h3>
                 <span class="close-btn" onclick="closePrivacyModal()">&times;</span>
             </div>
-            <p style="text-align: center; font-size: 12px; opacity: 0.8; margin-bottom: 10px;">Select Language:</p>
-            <div style="display: flex; gap: 8px; margin-bottom: 15px; justify-content: center;">
-                <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="showPolicyText('en')">English</button>
-                <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="showPolicyText('hi')">हिन्दी</button>
-                <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="showPolicyText('gu')">ગુજરાતી</button>
+            <p style="text-align: center; font-size: 12px; opacity: 0.8; margin-bottom: 10px;">પોલિસીની ભાષા પસંદ કરો / Select Language:</p>
+            
+            <div style="display: flex; gap: 8px; margin-bottom: 12px; justify-content: center; width: 100%;">
+                <button class="btn btn-secondary" style="flex:1; padding: 8px; font-size: 13px;" onclick="showPolicyText('gu')">ગુજરાતી</button>
+                <button class="btn btn-secondary" style="flex:1; padding: 8px; font-size: 13px;" onclick="showPolicyText('hi')">हिन्दी</button>
+                <button class="btn btn-secondary" style="flex:1; padding: 8px; font-size: 13px;" onclick="showPolicyText('en')">English</button>
             </div>
-            <div id="policy-placeholder" style="text-align: center; padding: 10px 0; font-size: 13px; opacity: 0.7;">👆 ઉપરથી ભાષા પસંદ કરો.</div>
-            <div id="policy-en" class="policy-text hidden" style="font-size: 13px; line-height: 1.6; overflow-y: auto;">
-                <p>Your translation history is saved locally only on your own device.<br><span style="color: #667eea; font-weight: bold;">✨ 100% Safe & Secure ✨</span></p>
+            
+            <div id="policy-placeholder" style="text-align: center; padding: 30px 0; font-size: 14px; opacity: 0.6;">👆 ઉપરથી કોઈપણ એક ભાષા પર ક્લિક કરો!</div>
+            
+            <div id="policy-gu" class="policy-content-text hidden">
+                <p><strong>૧. તમારી API કી ૧૦૦% સુરક્ષિત છે:</strong> તમે જે Gemini API Key નાખશો તે માત્ર તમારા જ ફોનની અંદર સેવ રહેશે. તે આપણા સર્વર પર કે કોઈ ત્રીજી વ્યક્તિ પાસે ક્યારેય નહીં જાય.</p>
+                <p><strong>૨. ચેટ સુરક્ષા (No Tracking):</strong> તમે Gemini AI ચેટબોક્સમાં જે પણ વાતો કે સવાલો પૂછશો, તેને ટ્રેક કે સેવ કરવામાં આવતી નથી. તે સીધી ગૂગલના સિક્યોર સર્વર પર પ્રોસેસ થાય છે.</p>
+                <p><strong>૩. હિસ્ટ્રી કંટ્રોલ:</strong> તમારા ટ્રાન્સલેશનનો તમામ ડેટા લોકલ છે. તમે 'Clear All' બટન દબાવીને તેને ગમે ત્યારે કાયમ માટે સાફ કરી શકો છો.</p>
             </div>
-            <div id="policy-hi" class="policy-text hidden" style="font-size: 13px; line-height: 1.6; overflow-y: auto;">
-                <p>आपकी अनुवाद की हिस्ट्री केवल आपके अपने डिवाइस में ही सुरक्षित रहती है।<br><span style="color: #667eea; font-weight: bold;">✨ 100% सुरक्षित ✨</span></p>
+            
+            <div id="policy-hi" class="policy-content-text hidden">
+                <p><strong>1. आपकी API की १००% सुरक्षित है:</strong> आप जो भी Gemini API Key दर्ज करेंगे, वह केवल आपके फोन में ही स्टोर रहेगी। यह हमारे गिटहब सर्वर या किसी बाहरी व्यक्ति के पास नहीं जाएगी।</p>
+                <p><strong>2. चैट सुरक्षा (No Tracking):</strong> आप Gemini AI चैटबॉक्स में जो भी सवाल पूछेंगे, उसे सेव या ट्रैक नहीं किया जाता। वह सुरक्षित रूप से सीधे गूगल के सर्वर पर प्रोसेस होता है।</p>
+                <p><strong>3. हिस्ट्री कंट्रोल:</strong> आपका ट्रांसलेशन डेटा पूरी तरह स्थानीय है। आप जब चाहें 'Clear All' बटन दबाकर इसे हमेशा के लिए मिटा सकते हैं।</p>
             </div>
-            <div id="policy-gu" class="policy-text hidden" style="font-size: 13px; line-height: 1.6; overflow-y: auto;">
-                <p>તમારી હિસ્ટ્રી માત્ર તમારા પોતાના ફોનમાં જ સેવ થાય છે.<br><span style="color: #667eea; font-weight: bold;">✨ 100% સુરક્ષિત ✨</span></p>
+            
+            <div id="policy-en" class="policy-content-text hidden">
+                <p><strong>1. 100% Secure API Key:</strong> The Gemini API Key you enter is stored locally within your browser. It is never uploaded to our GitHub repository or shared with anyone.</p>
+                <p><strong>2. Chat Privacy (No Tracking):</strong> Any conversations or queries you send to Gemini AI Chat are completely private. We do not track or save your chat history.</p>
+                <p><strong>3. Data Control:</strong> Your translation history is stored on your own device. You can completely erase it anytime using the 'Clear All' feature.</p>
             </div>
         </div>
     </div>
@@ -300,14 +344,62 @@
             if (!localStorage.getItem('app_rated')) {
                 setTimeout(() => { document.getElementById('ratingModal').classList.remove('hidden'); }, 15000);
             }
+            
+            let savedKey = localStorage.getItem('gemini_api_key');
+            if(savedKey) document.getElementById('apiKeyInput').value = savedKey;
         });
 
-        async function searchNewDictionary() {
+        function saveApiKey() {
+            let key = document.getElementById('apiKeyInput').value.trim();
+            if(!key) { alert("Please paste an API Key! 🔑"); return; }
+            localStorage.setItem('gemini_api_key', key);
+            alert("Gemini API Key saved securely! ✨🤖");
+        }
+
+        // 🚀 Gemini AI ચેટ કનેક્શન લોજિક
+        async function sendToGemini() {
+            let chatInput = document.getElementById('chatInput');
+            let question = chatInput.value.trim();
+            let chatScreen = document.getElementById('chatScreen');
+            let apiKey = localStorage.getItem('gemini_api_key');
+            
+            if(!question) return;
+            if(!apiKey) {
+                alert("પહેલા Settings માં જઈને Gemini API Key સેવ કરો ભાઈ! 🔑");
+                showSection('settings');
+                return;
+            }
+            
+            chatScreen.innerHTML += `<div class="msg msg-user">${question}</div>`;
+            chatInput.value = "";
+            chatScreen.scrollTop = chatScreen.scrollHeight;
+            
+            let aiLoaderId = 'ai-load-' + Date.now();
+            chatScreen.innerHTML += `<div class="msg msg-ai" id="${aiLoaderId}">Gemini લખી રહ્યું છે... ⏳</div>`;
+            chatScreen.scrollTop = chatScreen.scrollHeight;
+            
+            try {
+                let res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: question }] }] })
+                });
+                
+                let data = await res.json();
+                let reply = data.candidates[0].content.parts[0].text;
+                document.getElementById(aiLoaderId).innerText = reply;
+            } catch(e) {
+                document.getElementById(aiLoaderId).innerText = "Error: API Key ખોટી છે અથવા નેટવર્ક કનેક્શન પ્રોબ્લેમ છે! ❌";
+            }
+            chatScreen.scrollTop = chatScreen.scrollHeight;
+        }
+
+        // સ્માર્ટ ડિક્શનરી કોડ
+        async function searchSmartDictionary() {
             let word = document.getElementById('dictInput').value.trim();
-            let resultBox = document.getElementById('dictResult');
+            let resultContainer = document.getElementById('dictResultContainer');
             if(!word) { alert("Please type a word!"); return; }
-            resultBox.classList.remove('hidden');
-            resultBox.innerHTML = `<div style="text-align:center; padding-top:20px; font-weight:500;">Searching meaning... ⏳</div>`;
+            resultContainer.innerHTML = `<div style="text-align:center; padding:30px; font-weight:500;">Searching word... ⏳</div>`;
             try {
                 let dictRes = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word.toLowerCase()}`);
                 let dictData = await dictRes.json();
@@ -317,23 +409,44 @@
                 let hiRes = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=en|hi`);
                 let hiData = await hiRes.json();
                 let hiMeaning = hiData.responseData.translatedText;
+
                 if(!dictRes.ok) {
-                    resultBox.innerHTML = `
-                        <div class="dict-word-title">🔍 ${word.toUpperCase()}</div>
-                        <div class="dict-meaning-item"><strong>ગુજરાતી અર્થ:</strong> ${guMeaning}</div>
-                        <div class="dict-meaning-item"><strong>हिन्दी अर्थ:</strong> ${hiMeaning}</div>
+                    resultContainer.innerHTML = `
+                        <div class="dict-result-card">
+                            <div class="dict-header"><div class="dict-title-word">🔍 ${word}</div><span class="dict-badge">Word</span></div>
+                            <div class="meaning-row"><strong>ગુજરાતી અર્થ:</strong> ${guMeaning}</div>
+                            <div class="meaning-row"><strong>हिन्दी अर्थ:</strong> ${hiMeaning}</div>
+                        </div>
                     `;
                 } else {
                     let pos = dictData[0].meanings[0].partOfSpeech;
                     let def = dictData[0].meanings[0].definitions[0].definition;
-                    resultBox.innerHTML = `
-                        <div class="dict-word-title">📖 ${word.toUpperCase()} <span style="font-size:12px; color:gray; font-weight:normal;">(${pos})</span></div>
-                        <div class="dict-meaning-item" style="margin-bottom:12px;"><strong>ગુજરાતી અર્થ:</strong> <span style="color:#764ba2; font-weight:600;">${guMeaning}</span></div>
-                        <div class="dict-meaning-item" style="margin-bottom:12px;"><strong>हिन्दी अर्थ:</strong> <span style="color:#667eea; font-weight:600;">${hiMeaning}</span></div>
-                        <div class="dict-meaning-item" style="border-top:1px dashed #ccc; padding-top:8px; margin-top:8px;"><strong>English Definition:</strong> ${def}</div>
+                    let example = dictData[0].meanings[0].definitions[0].example || "";
+                    resultContainer.innerHTML = `
+                        <div class="dict-result-card">
+                            <div class="dict-header"><div class="dict-title-word">📖 ${word}</div><span class="dict-badge">${pos}</span></div>
+                            <div class="meaning-row"><strong>ગુજરાતી અર્થ:</strong> <span style="color:#764ba2; font-weight:600;">${guMeaning}</span></div>
+                            <div class="meaning-row"><strong>हिन्दी अर्थ:</strong> <span style="color:#667eea; font-weight:600;">${hiMeaning}</span></div>
+                            <div class="def-section" style="border-top:1px dashed rgba(0,0,0,0.08); padding-top:10px; margin-top:5px;"><strong>English Definition:</strong><br><span style="opacity:0.85;">${def}</span></div>
+                            ${example ? `<div class="def-section" style="color:gray; font-style:italic;"><strong>Example:</strong> "${example}"</div>` : ''}
+                        </div>
                     `;
                 }
-            } catch(e) { resultBox.innerHTML = `<div style="text-align:center; color:red; padding-top:20px;">ઇન્ટરનેટ કનેક્શન ચેક કરો ભાઈ! ❌</div>`; }
+            } catch(e) { resultContainer.innerHTML = `<div style="text-align:center; color:red; padding:30px;">Internet error! ❌</div>`; }
+        }
+
+        // 🚀 પ્રાઇવસી પોલિસી લેંગ્વેજ સ્વિચિંગ લોજિક
+        function openPrivacyModal() { 
+            document.getElementById('policy-placeholder').classList.remove('hidden');
+            document.querySelectorAll('.policy-content-text').forEach(el => el.classList.add('hidden'));
+            document.getElementById('privacyModal').classList.remove('hidden'); 
+            toggleMenu(); 
+        }
+        function closePrivacyModal() { document.getElementById('privacyModal').classList.add('hidden'); }
+        function showPolicyText(lang) {
+            document.getElementById('policy-placeholder').classList.add('hidden');
+            document.querySelectorAll('.policy-content-text').forEach(el => el.classList.add('hidden'));
+            document.getElementById('policy-' + lang).classList.remove('hidden');
         }
 
         function openInstallModal() { document.getElementById('installModal').classList.remove('hidden'); toggleMenu(); }
@@ -348,7 +461,7 @@
 
         function toggleMenu() { document.getElementById('sidebar').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
         function toggleDarkMode() { document.body.classList.toggle('dark-mode'); }
-        function showSection(id) { document.querySelectorAll('.container').forEach(c => c.classList.add('hidden')); document.getElementById(id + '-section').classList.remove('hidden'); let titles = { 'translator': '✨ Pro Translator', 'dictionary': '📖 Pro Dictionary', 'history': '📜 History', 'settings': '⚙️ Settings' }; document.getElementById('page-title').innerText = titles[id]; if(id === 'history') displayHistory(); toggleMenu(); }
+        function showSection(id) { document.querySelectorAll('.container').forEach(c => c.classList.add('hidden')); document.getElementById(id + '-section').classList.remove('hidden'); let titles = { 'translator': '✨ Pro Translator', 'dictionary': '📖 Pro Dictionary', 'aichat': '🤖 Gemini AI Chat', 'history': '📜 History', 'settings': '⚙️ Settings' }; document.getElementById('page-title').innerText = titles[id]; if(id === 'history') displayHistory(); toggleMenu(); }
         function updateSpeed(val) { currentSpeechRate = val; document.getElementById('speedVal').innerText = val; }
         function changeTheme(themeName) { document.body.classList.remove('theme-pink', 'theme-green'); if(themeName !== 'default') document.body.classList.add('theme-' + themeName); }
         function openLangModal(type) { currentSelecting = type; let list = document.getElementById('langList'); list.innerHTML = ""; document.getElementById('langSearch').value = ""; for(let code in languages) { let li = document.createElement("li"); li.innerText = languages[code]; li.onclick = () => selectLanguage(code, languages[code]); list.appendChild(li); } document.getElementById('langModal').classList.remove('hidden'); setTimeout(() => document.getElementById('langSearch').focus(), 100); }
@@ -356,9 +469,6 @@
         function filterLanguages() { let filter = document.getElementById('langSearch').value.toLowerCase(); let lis = document.getElementById('langList').getElementsByTagName('li'); for(let i=0; i<lis.length; i++) lis[i].style.display = lis[i].innerText.toLowerCase().includes(filter) ? "" : "none"; }
         function selectLanguage(code, name) { if(currentSelecting === 'source') { document.getElementById('sourceLangCode').value = code; document.getElementById('srcLangText').innerText = name; } else { document.getElementById('targetLangCode').value = code; document.getElementById('tgtLangText').innerText = name; } closeLangModal(); translateText(); }
         function swapLanguages() { let sC = document.getElementById("sourceLangCode").value; let sN = document.getElementById("srcLangText").innerText; let tC = document.getElementById("targetLangCode").value; let tN = document.getElementById("targetLangCode").value = sC; document.getElementById("srcLangText").innerText = sN; let inTxt = document.getElementById("inputText").value; let outTxt = document.getElementById("outputText").value; document.getElementById("inputText").value = outTxt; document.getElementById("outputText").value = inTxt; if (document.getElementById("inputText").value.trim() !== "") translateText(); }
-        function openPrivacyModal() { document.getElementById('policy-placeholder').classList.remove('hidden'); document.querySelectorAll('.policy-text').forEach(el => el.classList.add('hidden')); document.getElementById('privacyModal').classList.remove('hidden'); toggleMenu(); }
-        function closePrivacyModal() { document.getElementById('privacyModal').classList.add('hidden'); }
-        function showPolicyText(lang) { document.getElementById('policy-placeholder').classList.add('hidden'); document.querySelectorAll('.policy-text').forEach(el => el.classList.add('hidden')); document.getElementById('policy-' + lang).classList.remove('hidden'); }
         function saveToHistory(src, tgt, srcL, tgtL) { let hist = JSON.parse(localStorage.getItem("translation_history")) || []; if (hist.length > 0 && hist[0].sourceText === src) return; hist.unshift({ sourceText: src, targetText: tgt, srcLang: srcL, tgtLang: tgtL }); if (hist.length > 20) hist.pop(); localStorage.setItem("translation_history", JSON.stringify(hist)); }
         function displayHistory() { let hist = JSON.parse(localStorage.getItem("translation_history")) || []; let list = document.getElementById("historyList"); list.innerHTML = ""; if (hist.length === 0) { list.innerHTML = '<div style="text-align:center; opacity:0.7; padding-top:20px;">No history found.</div>'; return; } hist.forEach((item) => { list.innerHTML += `<div class="history-item"><div style="color:#667eea; font-size:12px; font-weight:bold; margin-bottom:5px;">${item.srcLang} ➔ ${item.tgtLang}</div><div><strong style="opacity:0.8;">Original:</strong> <br>${item.sourceText}</div><div style="margin-top:5px;"><strong style="opacity:0.8;">Translated:</strong> <br>${item.targetText}</div></div>`; }); }
         function clearHistory() { if(confirm("Delete all history?")) { localStorage.removeItem("translation_history"); displayHistory(); } }
