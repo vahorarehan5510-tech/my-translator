@@ -36,7 +36,6 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
         body { background: var(--bg-gradient); color: var(--text-color); transition: 0.5s ease; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; background-attachment: fixed; }
         
-        /* Splash Screen */
         #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-gradient); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s ease; }
         #splash-screen h1 { font-size: 30px; font-weight: 600; color: var(--text-color); animation: pulse 1s infinite alternate; text-align: center; }
         #splash-screen p { font-size: 13px; opacity: 0.7; margin-top: 10px; color: var(--text-color); }
@@ -81,7 +80,6 @@
         .btn-secondary { background: var(--input-bg); border: 2px solid var(--border-color); color: var(--text-color); }
         .btn-secondary:hover { background: #667eea; color: white; border-color: #667eea; }
         
-        /* 🚀 નવી પ્રોફેશનલ ડિક્શનરી રિઝલ્ટ બોક્સ ડિઝાઇન */
         .dict-result-box { width: 100%; margin-top: 15px; padding: 15px; border-radius: 16px; border: 2px solid var(--border-color); background: var(--input-bg); box-shadow: inset 0 2px 8px var(--shadow-color); min-height: 150px; max-height: 300px; overflow-y: auto; text-align: left; }
         .dict-word-title { font-size: 20px; font-weight: 600; color: #667eea; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; margin-bottom: 10px; }
         .dict-meaning-item { margin-bottom: 8px; font-size: 14px; line-height: 1.5; }
@@ -200,9 +198,9 @@
             <h2>📖 Premium Multi-Language Dictionary</h2>
             <p style="font-size: 13px; opacity: 0.8; margin-top: 5px;">કોઈપણ અંગ્રેજી શબ્દ લખો (દા.ત. Knowledge, Education, Happy):</p>
             
-            <div style="display: flex; gap: 8px; margin-top: 10px; align-items: center;">
-                <input type="text" id="dictInput" placeholder="Enter English word here..." style="flex: 1; padding: 12px; border-radius: 12px; border:2px solid var(--border-color); background:var(--input-bg); color:var(--text-color); font-size:15px; outline: none;">
-                <button class="btn btn-primary" style="padding: 12px 20px;" onclick="searchNewDictionary()">Search 🔍</button>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 12px; width: 100%;">
+                <input type="text" id="dictInput" placeholder="Enter English word here..." style="width: 100%; padding: 12px; border-radius: 12px; border:2px solid var(--border-color); background:var(--input-bg); color:var(--text-color); font-size:15px; outline: none;">
+                <button class="btn btn-primary" style="width: 100%; padding: 12px;" onclick="searchNewDictionary()">Search Meaning 🔍</button>
             </div>
             
             <div class="dict-result-box" id="dictResult">
@@ -302,7 +300,7 @@
                 <button class="btn btn-secondary" onclick="closeRatingModal()">Later</button>
                 <button class="btn btn-primary" onclick="submitRating()">Submit ✨</button>
             </div>
-        </div>
+        </div  
     </div>
         <script>
         const languages = { "af": "Afrikaans", "sq": "Albanian", "am": "Amharic", "ar": "Arabic", "hy": "Armenian", "bn": "Bengali", "bg": "Bulgarian", "my": "Burmese", "zh": "Chinese", "hr": "Croatian", "cs": "Czech", "da": "Danish", "nl": "Dutch", "en": "English", "et": "Estonian", "fi": "Finnish", "fr": "French", "ka": "Georgian", "de": "German", "el": "Greek", "gu": "Gujarati", "he": "Hebrew", "hi": "Hindi", "hu": "Hungarian", "is": "Icelandic", "id": "Indonesian", "it": "Italian", "ja": "Japanese", "kn": "Kannada", "kk": "Kazakh", "km": "Khmer", "ko": "Korean", "lo": "Lao", "la": "Latin", "lv": "Latvian", "lt": "Lithuanian", "ms": "Malay", "ml": "Malayalam", "mr": "Marathi", "ne": "Nepali", "no": "Norwegian", "fa": "Persian", "pl": "Polish", "pt": "Portuguese", "pa": "Punjabi", "ro": "Romanian", "ru": "Russian", "sr": "Serbian", "si": "Sinhala", "sk": "Slovak", "sl": "Slovenian", "es": "Spanish", "sw": "Swahili", "sv": "Swedish", "ta": "Tamil", "te": "Telugu", "th": "Thai", "tr": "Turkish", "uk": "Ukrainian", "ur": "Urdu", "uz": "Uzbek", "vi": "Vietnamese", "cy": "Welsh", "zu": "Zulu" };
@@ -326,7 +324,7 @@
             }
         });
 
-        // 🚀 ઓરિજિનલ મલ્ટી-લેંગ્વેજ ડિક્શનરી કોડ
+        // ઓરિજિનલ મલ્ટી-લેંગ્વેજ ડિક્શનરી કોડ
         async function searchNewDictionary() {
             let word = document.getElementById('dictInput').value.trim();
             let resultBox = document.getElementById('dictResult');
@@ -335,11 +333,9 @@
             resultBox.innerHTML = `<div style="text-align:center; padding-top:40px; font-weight:500;">Searching meaning... ⏳</div>`;
             
             try {
-                // 1. English API માંથી વ્યાખ્યા લાવીશું
                 let dictRes = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word.toLowerCase()}`);
                 let dictData = await dictRes.json();
                 
-                // 2. સમાંતરમાં ગુજરાતી અને હિન્દી અર્થ પણ ટ્રાન્સલેટ કરી લાવીશું
                 let guRes = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=en|gu`);
                 let guData = await guRes.json();
                 let guMeaning = guData.responseData.translatedText;
@@ -349,7 +345,6 @@
                 let hiMeaning = hiData.responseData.translatedText;
 
                 if(!dictRes.ok) {
-                    // જો ઇંગ્લિશ ડિક્શનરીમાં ન મળે તો પણ ટ્રાન્સલેશન બતાવીશું
                     resultBox.innerHTML = `
                         <div class="dict-word-title">🔍 ${word.toUpperCase()}</div>
                         <div class="dict-meaning-item"><strong>ગુજરાતી અર્થ:</strong> ${guMeaning}</div>
@@ -377,6 +372,11 @@
         function closeRatingModal() { document.getElementById('ratingModal').classList.add('hidden'); localStorage.setItem('app_rated', 'true'); }
         function submitRating() { let r = document.querySelector('input[name="rating"]:checked'); if (r) { alert(`Thank you for ${r.value} Stars! ✨💖`); localStorage.setItem('app_rated', 'true'); document.getElementById('ratingModal').classList.add('hidden'); } else alert("Please select a star first! ⭐"); }
 
+        document.getElementById('inputText').addEventListener('input', () => { let text = document.getElementById('inputText').value; let words = text.trim() === "" ? 0 : text.trim().split(/\s+/).length; document.getElementById('counter').innerText = `${words} Words | ${text.length} Chars`; clearTimeout(typingTimer); typingTimer = setTimeout(translateText, 800); });
+        function clearText() { document.getElementById("inputText").value = ""; document.getElementById("outputText").value = ""; document.getElementById('counter').innerText = "0 Words | 0 Chars"; }
+        function copyText() { let out = document.getElementById("outputText"); if(out.value && !out.value.includes("Translating")) { navigator.clipboard.writeText(out.value); alert("Text copied! ✨"); } }
+        async function translateText() { let text = document.getElementById("inputText").value.trim(); let srcLang = document.getElementById("sourceLangCode").value; let tgtLang = document.getElementById("targetLangCode").value; let outBox = document.getElementById("outputText"); if (!text) { outBox.value = ""; return; } outBox.value = "✨ Translating..."; try { let res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${srcLang}|${tgtLang}`); let data = await res.json(); outBox.value = data.responseData.translatedText; saveToHistory(text, outBox.value, languages[srcLang], languages[tgtLang]); } catch (e) { outBox.value = "Error translating. Check connection."; } }
+
         function toggleMenu() { document.getElementById('sidebar').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
         function toggleDarkMode() { document.body.classList.toggle('dark-mode'); }
         
@@ -400,11 +400,6 @@
         function openPrivacyModal() { document.getElementById('policy-placeholder').classList.remove('hidden'); document.querySelectorAll('.policy-text').forEach(el => el.classList.add('hidden')); document.getElementById('privacyModal').classList.remove('hidden'); toggleMenu(); }
         function closePrivacyModal() { document.getElementById('privacyModal').classList.add('hidden'); }
         function showPolicyText(lang) { document.getElementById('policy-placeholder').classList.add('hidden'); document.querySelectorAll('.policy-text').forEach(el => el.classList.add('hidden')); document.getElementById('policy-' + lang).classList.remove('hidden'); }
-
-        document.getElementById('inputText').addEventListener('input', () => { let text = document.getElementById('inputText').value; let words = text.trim() === "" ? 0 : text.trim().split(/\s+/).length; document.getElementById('counter').innerText = `${words} Words | ${text.length} Chars`; clearTimeout(typingTimer); typingTimer = setTimeout(translateText, 800); });
-        function clearText() { document.getElementById("inputText").value = ""; document.getElementById("outputText").value = ""; document.getElementById('counter').innerText = "0 Words | 0 Chars"; }
-        function copyText() { let out = document.getElementById("outputText"); if(out.value && !out.value.includes("Translating")) { navigator.clipboard.writeText(out.value); alert("Text copied! ✨"); } }
-        async function translateText() { let text = document.getElementById("inputText").value.trim(); let srcLang = document.getElementById("sourceLangCode").value; let tgtLang = document.getElementById("targetLangCode").value; let outBox = document.getElementById("outputText"); if (!text) { outBox.value = ""; return; } outBox.value = "✨ Translating..."; try { let res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${srcLang}|${tgtLang}`); let data = await res.json(); outBox.value = data.responseData.translatedText; saveToHistory(text, outBox.value, languages[srcLang], languages[tgtLang]); } catch (e) { outBox.value = "Error translating. Check connection."; } }
 
         function saveToHistory(src, tgt, srcL, tgtL) { let hist = JSON.parse(localStorage.getItem("translation_history")) || []; if (hist.length > 0 && hist[0].sourceText === src) return; hist.unshift({ sourceText: src, targetText: tgt, srcLang: srcL, tgtLang: tgtL }); if (hist.length > 20) hist.pop(); localStorage.setItem("translation_history", JSON.stringify(hist)); }
         function displayHistory() { let hist = JSON.parse(localStorage.getItem("translation_history")) || []; let list = document.getElementById("historyList"); list.innerHTML = ""; if (hist.length === 0) { list.innerHTML = '<div style="text-align:center; opacity:0.7;">No history found.</div>'; return; } hist.forEach((item) => { list.innerHTML += `<div class="history-item"><div style="color:#667eea; font-size:12px; font-weight:bold; margin-bottom:5px;">${item.srcLang} ➔ ${item.tgtLang}</div><div><strong style="opacity:0.8;">Original:</strong> <br>${item.sourceText}</div><div style="margin-top:5px;"><strong style="opacity:0.8;">Translated:</strong> <br>${item.targetText}</div></div>`; }); }
