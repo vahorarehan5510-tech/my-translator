@@ -356,7 +356,7 @@
             alert("Gemini API Key saved securely! ✨🤖");
         }
 
-        // 🚀 FIXED: નવો ૧૦૦% વર્કિંગ Gemini AI ચેટ કનેક્શન કોડ
+        // 🚀 ૧૦૦% સુધારેલો અને ટેસ્ટ કરેલો Gemini AI કનેક્શન કોડ
         async function sendToGemini() {
             let chatInput = document.getElementById('chatInput');
             let question = chatInput.value.trim();
@@ -379,11 +379,11 @@
             chatScreen.scrollTop = chatScreen.scrollHeight;
             
             try {
-                // નવી સિક્યોર v1beta એપીઆઈ લિંક અપડેટ
-                let res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+                // સૌથી સ્થિર (Stable) ગૂગલ જેમીની API રૂટ
+                let res = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${apiKey}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: question }] }] })
+                    body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: question }] }] })
                 });
                 
                 let data = await res.json();
@@ -392,12 +392,12 @@
                     let reply = data.candidates[0].content.parts[0].text;
                     document.getElementById(aiLoaderId).innerText = reply;
                 } else if (data.error) {
-                    document.getElementById(aiLoaderId).innerText = "ગૂગલ એરર: " + data.error.message;
+                    document.getElementById(aiLoaderId).innerText = "ગૂગલ રિસ્પોન્સ એરર: " + data.error.message;
                 } else {
-                    document.getElementById(aiLoaderId).innerText = "ચાવી (Key) ખોટી છે અથવા એક્ટિવ નથી! ❌";
+                    document.getElementById(aiLoaderId).innerText = "કનેક્શન મળ્યું પણ જવાબ પ્રોસેસ ન થયો. કી તપાસો! ❌";
                 }
             } catch(e) {
-                document.getElementById(aiLoaderId).innerText = "કનેક્શન ફેઇલ! કૃપા કરીને કી અથવા ઇન્ટરનેટ ચેક કરો. ❌";
+                document.getElementById(aiLoaderId).innerText = "નેટવર્ક એરર! કૃપા કરીને તમારી સેવ કરેલી કી અથવા ઇન્ટરનેટ ચેક કરો. ❌";
             }
             chatScreen.scrollTop = chatScreen.scrollHeight;
         }
@@ -483,6 +483,7 @@
         function startVoiceInput() { if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) { const sr = new (window.SpeechRecognition || window.webkitSpeechRecognition)(); sr.lang = document.getElementById('sourceLangCode').value; sr.start(); document.getElementById('inputText').placeholder = "Listening... 🎙️"; sr.onresult = (e) => { document.getElementById('inputText').value += " " + e.results[0][0].transcript; document.getElementById('inputText').dispatchEvent(new Event('input')); document.getElementById('inputText').placeholder = "Start typing... ✨"; }; } else alert("Voice Typing not supported."); }
         function speakTranslation() { let text = document.getElementById('outputText').value; if(text && !text.includes("Translating")) { window.speechSynthesis.cancel(); let ut = new SpeechSynthesisUtterance(text); ut.lang = document.getElementById('targetLangCode').value; ut.rate = currentSpeechRate; window.speechSynthesis.speak(ut); } }
         function shareApp() { window.open(`https://wa.me/?text=${encodeURIComponent("Check out this amazing free Pro Translator app: https://vahorarehan5510-tech.github.io/my-translator/")}`, '_blank'); }
-            </script>
+                </script>
+        
 </body>
 </html>
