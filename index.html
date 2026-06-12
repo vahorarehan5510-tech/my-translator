@@ -51,8 +51,8 @@
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; }
         .overlay.active { display: block; }
         
+        /* 🚀 અહીં બોક્સની સાઇઝ પરફેક્ટ એડજસ્ટ કરી છે */
         .main-content { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 25px 15px; width: 100%; }
-        /* 🚀 અહી બોક્સની આજુબાજુ જગ્યા સેટ કરી છે */
         .container { width: 100%; max-width: 1000px; margin: 0 auto; background: var(--box-bg); backdrop-filter: blur(16px); padding: 20px; border-radius: 24px; border: 1px solid var(--border-color); box-shadow: 0 15px 35px var(--shadow-color); display: flex; flex-direction: column; }
         .hidden { display: none !important; }
         
@@ -62,6 +62,7 @@
         .swap-btn { background: var(--primary-gradient); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 18px; flex-shrink: 0; cursor: pointer; transition: 0.4s; box-shadow: 0 4px 10px var(--shadow-color); display: flex; align-items: center; justify-content: center; }
         .swap-btn:hover { transform: scale(1.1) rotate(180deg); }
         
+        /* 🚀 ટેક્સ્ટ બોક્સની હાઈટ થોડી નાની કરી છે */
         .text-panels { display: flex; flex-direction: column; gap: 15px; }
         .text-box-wrap { position: relative; display: flex; flex-direction: column; }
         textarea { width: 100%; height: 160px; padding: 15px; border-radius: 16px; border: 2px solid var(--border-color); background: var(--input-bg); color: var(--text-color); font-size: 15px; resize: none; outline: none; box-shadow: inset 0 2px 8px var(--shadow-color); transition: 0.3s; line-height: 1.5; }
@@ -107,9 +108,9 @@
             .navbar { padding: 10px 15px; }
             #page-title { font-size: 16px; }
             .nav-left { gap: 10px; }
-            /* 🚀 અહીં `padding` વધારીને આજુબાજુની જગ્યા (ગેપ) વધારી છે */
-            .main-content { padding: 30px 20px; align-items: center; }
-            .container { padding: 15px; border-radius: 20px; width: 100%; max-width: 95%; }
+            /* 🚀 અહીં બોક્સની આસપાસની જગ્યા સેટ કરી છે */
+            .main-content { padding: 20px 15px; align-items: center; }
+            .container { padding: 15px; border-radius: 20px; }
             .controls { padding: 8px; gap: 5px; }
             .lang-btn { font-size: 13px; padding: 8px 5px; }
             .swap-btn { width: 35px; height: 35px; font-size: 16px; }
