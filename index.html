@@ -86,17 +86,7 @@
         .meaning-row { background: rgba(0,0,0,0.02); padding: 10px 14px; border-radius: 14px; font-size: 15px; border-left: 4px solid #667eea; }
         .def-section { font-size: 14px; color: var(--text-color); opacity: 0.9; line-height: 1.6; }
 
-        /* AI ચેટબોક્સ WhatsApp લુક */
-        .chat-area { width: 100%; height: 350px; background: var(--input-bg); border-radius: 24px; border: 1px solid var(--border-color); box-shadow: 0 4px 20px var(--shadow-color); padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
-        .msg { max-width: 80%; padding: 10px 16px; border-radius: 18px; font-size: 15px; line-height: 1.5; word-wrap: break-word; }
-        .msg-user { background: var(--primary-gradient); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
-        .msg-ai { background: rgba(0,0,0,0.04); color: var(--text-color); align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid var(--border-color); }
-        .dark-mode .msg-ai { background: rgba(255,255,255,0.05); }
-        
-        .chat-input-wrap { display: flex; gap: 8px; width: 100%; align-items: center; background: var(--input-bg); padding: 8px 12px; border-radius: 20px; box-shadow: 0 4px 15px var(--shadow-color); border: 1px solid var(--border-color); }
-        .chat-input { flex: 1; border: none; background: transparent; color: var(--text-color); font-size: 15px; outline: none; padding: 8px 0; }
-
-        /* 🚀 પ્રાઇવસી પોલિસી ટેક્સ્ટ સ્ટાઇલ */
+        /* પ્રાઇવસી પોલિસી ટેક્સ્ટ સ્ટાઇલ */
         .policy-content-text { text-align: left; font-size: 14px; line-height: 1.7; margin-top: 10px; max-height: 250px; overflow-y: auto; padding-right: 5px; }
         .policy-content-text p { margin-bottom: 12px; }
 
@@ -120,7 +110,7 @@
         .rating-stars label { font-size: 35px; color: #ccc; cursor: pointer; text-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .rating-stars input:checked ~ label, .rating-stars label:hover, .rating-stars label:hover ~ label { color: #ffcc00; }
 
-        @media (min-width: 768px) { .text-panels { flex-direction: row; gap: 20px; } textarea { height: 220px !important; } .text-box-wrap { flex: 1; } .main-content { max-width: 900px; } .chat-area { height: 420px; } }
+        @media (min-width: 768px) { .text-panels { flex-direction: row; gap: 20px; } textarea { height: 220px !important; } .text-box-wrap { flex: 1; } .main-content { max-width: 900px; } }
     </style>
 </head>
     <body>
@@ -146,7 +136,6 @@
         <ul class="sidebar-menu">
             <li><a href="#" onclick="showSection('translator')">🏠 Home (હોમ)</a></li>
             <li><a href="#" onclick="showSection('dictionary')">📖 Pro Dictionary</a></li>
-            <li><a href="#" onclick="showSection('aichat')">🤖 Gemini AI Chat</a></li>
             <li><a href="#" onclick="showSection('history')">📜 History (હિસ્ટ્રી)</a></li>
             <li><a href="#" onclick="showSection('settings')">⚙️ Settings (સેટિંગ્સ)</a></li>
             <li><a href="#" onclick="shareApp()">🔗 Share App (એપ શેર કરો)</a></li>
@@ -202,16 +191,6 @@
             <div id="dictResultContainer"></div>
         </div>
 
-        <div class="container hidden" id="aichat-section">
-            <div class="chat-area" id="chatScreen">
-                <div class="msg msg-ai">નમસ્તે ભાઈ! હું Gemini AI છું. કંઈપણ પૂછવા માટે નીચે મેસેજ ટાઈપ કરો! 🤖✨</div>
-            </div>
-            <div class="chat-input-wrap">
-                <input type="text" id="chatInput" class="chat-input" placeholder="Gemini ને કંઈપણ પૂછો..." onkeypress="if(event.key === 'Enter') sendToGemini()">
-                <button class="icon-btn" style="background: var(--primary-gradient); color: white;" onclick="sendToGemini()">➔</button>
-            </div>
-        </div>
-
         <div class="container hidden" id="history-section">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
                 <h3 style="font-size: 16px; font-weight: 600;">📜 Saved History</h3>
@@ -222,13 +201,8 @@
 
         <div class="container hidden" id="settings-section">
             <div class="text-box-wrap" style="gap: 15px;">
-                <h3 style="font-size: 16px; font-weight: 600;">⚙️ Settings & API Configuration</h3>
-                <div style="display: flex; flex-direction: column; gap: 8px;">
-                    <label style="font-size: 14px; font-weight: 500;">🔑 Enter Gemini API Key:</label>
-                    <input type="password" id="apiKeyInput" placeholder="AI ચેટ ચાલુ કરવા માટે અહી કી પેસ્ટ કરો..." style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-gradient); color: var(--text-color); font-size: 14px; outline: none; background-image: none;">
-                    <button class="btn btn-primary" style="padding: 10px;" onclick="saveApiKey()">Save Key ✨</button>
-                </div>
-                <div style="border-top: 1px solid var(--border-color); padding-top: 15px;">
+                <h3 style="font-size: 16px; font-weight: 600;">⚙️ Settings</h3>
+                <div>
                     <label style="font-size: 14px;">🗣️ Voice Speed: <strong id="speedVal">0.9</strong>x</label>
                     <input type="range" min="0.5" max="1.5" step="0.1" value="0.9" onchange="updateSpeed(this.value)" style="width: 100%; margin-top: 8px;">
                 </div>
@@ -273,21 +247,21 @@
             <div id="policy-placeholder" style="text-align: center; padding: 30px 0; font-size: 14px; opacity: 0.6;">👆 ઉપરથી કોઈપણ એક ભાષા પર ક્લિક કરો!</div>
             
             <div id="policy-gu" class="policy-content-text hidden">
-                <p><strong>૧. તમારી API કી ૧૦૦% સુરક્ષિત છે:</strong> તમે જે Gemini API Key નાખશો તે માત્ર તમારા જ ફોનની અંદર સેવ રહેશે. તે આપણા સર્વર પર કે કોઈ ત્રીજી વ્યક્તિ પાસે ક્યારેય નહીં જાય.</p>
-                <p><strong>૨. ચેટ સુરક્ષા (No Tracking):</strong> તમે Gemini AI ચેટબોક્સમાં જે પણ વાતો કે સવાલો પૂછશો, તેને ટ્રેક કે સેવ કરવામાં આવતી નથી. તે સીધી ગૂગલના સિક્યોર સર્વર પર પ્રોસેસ થાય છે.</p>
-                <p><strong>૩. હિસ્ટ્રી કંટ્રોલ:</strong> તમારા ટ્રાન્સલેશનનો તમામ ડેટા લોકલ છે. તમે 'Clear All' બટન દબાવીને તેને ગમે ત્યારે કાયમ માટે સાફ કરી શકો છો.</p>
+                <p><strong>૧. ડેટા સુરક્ષા:</strong> આ એપમાં તમારા કોઈ પણ પર્સનલ ડેટા, નામ કે લોકેશન ટ્રેક કે સેવ કરવામાં આવતા નથી.</p>
+                <p><strong>૨. હિસ્ટ્રી કંટ્રોલ:</strong> તમારા ટ્રાન્સલેશનનો તમામ ડેટા માત્ર તમારા જ ફોનમાં લોકલ સેવ થાય છે. તમે 'Clear All' બટન દબાવીને તેને ગમે ત્યારે કાયમ માટે સાફ કરી શકો છો.</p>
+                <p><strong>૩. ૧૦૦% સેફ:</strong> આ એપ સંપૂર્ણપણે સુરક્ષિત છે અને તેમાં કોઈ બહારનું સર્વર ડેટા ચોરી કરતું નથી.</p>
             </div>
             
             <div id="policy-hi" class="policy-content-text hidden">
-                <p><strong>1. आपकी API की १००% सुरक्षित है:</strong> आप जो भी Gemini API Key दर्ज करेंगे, वह केवल आपके फोन में ही स्टोर रहेगी। यह हमारे गिटहब सर्वर या किसी बाहरी व्यक्ति के पास नहीं जाएगी।</p>
-                <p><strong>2. चैट सुरक्षा (No Tracking):</strong> आप Gemini AI चैटबॉक्स में जो भी सवाल पूछेंगे, उसे सेव या ट्रैक नहीं किया जाता। वह सुरक्षित रूप से सीधे गूगल के सर्वर पर प्रोसेस होता है।</p>
-                <p><strong>3. हिस्ट्री कंट्रोल:</strong> आपका ट्रांसलेशन डेटा पूरी तरह स्थानीय है। आप जब चाहें 'Clear All' बटन दबाकर इसे हमेशा के लिए मिटा सकते हैं।</p>
+                <p><strong>1. डेटा सुरक्षा:</strong> इस ऐप में आपका कोई भी व्यक्तिगत डेटा, नाम या लोकेशन ट्रैक या सेव नहीं किया जाता है।</p>
+                <p><strong>2. हिस्ट्री कंट्रोल:</strong> आपका ट्रांसलेशन डेटा पूरी तरह आपके ही फोन में लोकल स्टोर रहता है। आप जब चाहें 'Clear All' बटन दबाकर इसे मिटा सकते हैं।</p>
+                <p><strong>3. १००% सुरक्षित:</strong> यह ऐप पूरी तरह सुरक्षित है और इसमें कोई बाहरी सर्वर शामिल नहीं है।</p>
             </div>
             
             <div id="policy-en" class="policy-content-text hidden">
-                <p><strong>1. 100% Secure API Key:</strong> The Gemini API Key you enter is stored locally within your browser. It is never uploaded to our GitHub repository or shared with anyone.</p>
-                <p><strong>2. Chat Privacy (No Tracking):</strong> Any conversations or queries you send to Gemini AI Chat are completely private. We do not track or save your chat history.</p>
-                <p><strong>3. Data Control:</strong> Your translation history is stored on your own device. You can completely erase it anytime using the 'Clear All' feature.</p>
+                <p><strong>1. Data Privacy:</strong> This app does not track, collect, or store any of your personal information, name, or location.</p>
+                <p><strong>2. History Management:</strong> Your translation history is saved locally on your own device. You can easily erase it anytime using the 'Clear All' button.</p>
+                <p><strong>3. 100% Secure:</strong> The app is fully secure and relies solely on client-side functions without external server exploitation.</p>
             </div>
         </div>
     </div>
@@ -323,8 +297,8 @@
                 <button class="btn btn-primary" style="padding: 8px 15px; font-size: 13px; width: auto;" onclick="submitRating()">Submit ✨</button>
             </div>
         </div>
-     </div>
-      <script>
+    </div>
+        <script>
         const languages = { "af": "Afrikaans", "sq": "Albanian", "am": "Amharic", "ar": "Arabic", "hy": "Armenian", "bn": "Bengali", "bg": "Bulgarian", "my": "Burmese", "zh": "Chinese", "hr": "Croatian", "cs": "Czech", "da": "Danish", "nl": "Dutch", "en": "English", "et": "Estonian", "fi": "Finnish", "fr": "French", "ka": "Georgian", "de": "German", "el": "Greek", "gu": "Gujarati", "he": "Hebrew", "hi": "Hindi", "hu": "Hungarian", "is": "Icelandic", "id": "Indonesian", "it": "Italian", "ja": "Japanese", "kn": "Kannada", "kk": "Kazakh", "km": "Khmer", "ko": "Korean", "lo": "Lao", "la": "Latin", "lv": "Latvian", "lt": "Lithuanian", "ms": "Malay", "ml": "Malayalam", "mr": "Marathi", "ne": "Nepali", "no": "Norwegian", "fa": "Persian", "pl": "Polish", "pt": "Portuguese", "pa": "Punjabi", "ro": "Romanian", "ru": "Russian", "sr": "Serbian", "si": "Sinhala", "sk": "Slovak", "sl": "Slovenian", "es": "Spanish", "sw": "Swahili", "sv": "Swedish", "ta": "Tamil", "te": "Telugu", "th": "Thai", "tr": "Turkish", "uk": "Ukrainian", "ur": "Urdu", "uz": "Uzbek", "vi": "Vietnamese", "cy": "Welsh", "zu": "Zulu" };
 
         let currentSelecting = 'source'; 
@@ -344,63 +318,7 @@
             if (!localStorage.getItem('app_rated')) {
                 setTimeout(() => { document.getElementById('ratingModal').classList.remove('hidden'); }, 15000);
             }
-            
-            let savedKey = localStorage.getItem('gemini_api_key');
-            if(savedKey) document.getElementById('apiKeyInput').value = savedKey;
         });
-
-        function saveApiKey() {
-            let key = document.getElementById('apiKeyInput').value.trim();
-            if(!key) { alert("Please paste an API Key! 🔑"); return; }
-            localStorage.setItem('gemini_api_key', key);
-            alert("Gemini API Key saved securely! ✨🤖");
-        }
-
-        // 🚀 FIXED: ૧૦૦% ઓફિશિયલ અને વર્કિંગ Gemini 1.5 Flash API રૂટ
-        async function sendToGemini() {
-            let chatInput = document.getElementById('chatInput');
-            let question = chatInput.value.trim();
-            let chatScreen = document.getElementById('chatScreen');
-            let apiKey = localStorage.getItem('gemini_api_key');
-            
-            if(!question) return;
-            if(!apiKey) {
-                alert("પહેલા Settings માં જઈને Gemini API Key સેવ કરો ભાઈ! 🔑");
-                showSection('settings');
-                return;
-            }
-            
-            chatScreen.innerHTML += `<div class="msg msg-user">${question}</div>`;
-            chatInput.value = "";
-            chatScreen.scrollTop = chatScreen.scrollHeight;
-            
-            let aiLoaderId = 'ai-load-' + Date.now();
-            chatScreen.innerHTML += `<div class="msg msg-ai" id="${aiLoaderId}">Gemini લખી રહ્યું છે... ⏳</div>`;
-            chatScreen.scrollTop = chatScreen.scrollHeight;
-            
-            try {
-                // નવી સિક્યોર v1beta લિંક જેમાં માત્ર API Key ની જરૂર પડે છે, કોઈ OAuth ટોકન નહીં
-                let res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: question }] }] })
-                });
-                
-                let data = await res.json();
-                
-                if (data.candidates && data.candidates[0].content.parts[0].text) {
-                    let reply = data.candidates[0].content.parts[0].text;
-                    document.getElementById(aiLoaderId).innerText = reply;
-                } else if (data.error) {
-                    document.getElementById(aiLoaderId).innerText = "ગૂગલ રિસ્પોન્સ એરર: " + data.error.message;
-                } else {
-                    document.getElementById(aiLoaderId).innerText = "ચાવી (Key) ખોટી છે અથવા એક્ટિવ નથી! ❌";
-                }
-            } catch(e) {
-                document.getElementById(aiLoaderId).innerText = "નેટવર્ક એરર! કૃપા કરીને તમારી સેવ કરેલી કી અથવા ઇન્ટરનેટ ચેક કરો. ❌";
-            }
-            chatScreen.scrollTop = chatScreen.scrollHeight;
-        }
 
         // સ્માર્ટ ડિક્શનરી કોડ
         async function searchSmartDictionary() {
@@ -468,7 +386,7 @@
 
         function toggleMenu() { document.getElementById('sidebar').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
         function toggleDarkMode() { document.body.classList.toggle('dark-mode'); }
-        function showSection(id) { document.querySelectorAll('.container').forEach(c => c.classList.add('hidden')); document.getElementById(id + '-section').classList.remove('hidden'); let titles = { 'translator': '✨ Pro Translator', 'dictionary': '📖 Pro Dictionary', 'aichat': '🤖 Gemini AI Chat', 'history': '📜 History', 'settings': '⚙️ Settings' }; document.getElementById('page-title').innerText = titles[id]; if(id === 'history') displayHistory(); toggleMenu(); }
+        function showSection(id) { document.querySelectorAll('.container').forEach(c => c.classList.add('hidden')); document.getElementById(id + '-section').classList.remove('hidden'); let titles = { 'translator': '✨ Pro Translator', 'dictionary': '📖 Pro Dictionary', 'history': '📜 History', 'settings': '⚙️ Settings' }; document.getElementById('page-title').innerText = titles[id]; if(id === 'history') displayHistory(); toggleMenu(); }
         function updateSpeed(val) { currentSpeechRate = val; document.getElementById('speedVal').innerText = val; }
         function changeTheme(themeName) { document.body.classList.remove('theme-pink', 'theme-green'); if(themeName !== 'default') document.body.classList.add('theme-' + themeName); }
         function openLangModal(type) { currentSelecting = type; let list = document.getElementById('langList'); list.innerHTML = ""; document.getElementById('langSearch').value = ""; for(let code in languages) { let li = document.createElement("li"); li.innerText = languages[code]; li.onclick = () => selectLanguage(code, languages[code]); list.appendChild(li); } document.getElementById('langModal').classList.remove('hidden'); setTimeout(() => document.getElementById('langSearch').focus(), 100); }
@@ -483,6 +401,6 @@
         function startVoiceInput() { if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) { const sr = new (window.SpeechRecognition || window.webkitSpeechRecognition)(); sr.lang = document.getElementById('sourceLangCode').value; sr.start(); document.getElementById('inputText').placeholder = "Listening... 🎙️"; sr.onresult = (e) => { document.getElementById('inputText').value += " " + e.results[0][0].transcript; document.getElementById('inputText').dispatchEvent(new Event('input')); document.getElementById('inputText').placeholder = "Start typing... ✨"; }; } else alert("Voice Typing not supported."); }
         function speakTranslation() { let text = document.getElementById('outputText').value; if(text && !text.includes("Translating")) { window.speechSynthesis.cancel(); let ut = new SpeechSynthesisUtterance(text); ut.lang = document.getElementById('targetLangCode').value; ut.rate = currentSpeechRate; window.speechSynthesis.speak(ut); } }
         function shareApp() { window.open(`https://wa.me/?text=${encodeURIComponent("Check out this amazing free Pro Translator app: https://vahorarehan5510-tech.github.io/my-translator/")}`, '_blank'); }
-                           </script>  
+    </script>
 </body>
 </html>
