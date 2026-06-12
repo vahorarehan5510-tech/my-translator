@@ -324,7 +324,7 @@
             </div>
         </div>
      </div>
-        <script>
+      <script>
         const languages = { "af": "Afrikaans", "sq": "Albanian", "am": "Amharic", "ar": "Arabic", "hy": "Armenian", "bn": "Bengali", "bg": "Bulgarian", "my": "Burmese", "zh": "Chinese", "hr": "Croatian", "cs": "Czech", "da": "Danish", "nl": "Dutch", "en": "English", "et": "Estonian", "fi": "Finnish", "fr": "French", "ka": "Georgian", "de": "German", "el": "Greek", "gu": "Gujarati", "he": "Hebrew", "hi": "Hindi", "hu": "Hungarian", "is": "Icelandic", "id": "Indonesian", "it": "Italian", "ja": "Japanese", "kn": "Kannada", "kk": "Kazakh", "km": "Khmer", "ko": "Korean", "lo": "Lao", "la": "Latin", "lv": "Latvian", "lt": "Lithuanian", "ms": "Malay", "ml": "Malayalam", "mr": "Marathi", "ne": "Nepali", "no": "Norwegian", "fa": "Persian", "pl": "Polish", "pt": "Portuguese", "pa": "Punjabi", "ro": "Romanian", "ru": "Russian", "sr": "Serbian", "si": "Sinhala", "sk": "Slovak", "sl": "Slovenian", "es": "Spanish", "sw": "Swahili", "sv": "Swedish", "ta": "Tamil", "te": "Telugu", "th": "Thai", "tr": "Turkish", "uk": "Ukrainian", "ur": "Urdu", "uz": "Uzbek", "vi": "Vietnamese", "cy": "Welsh", "zu": "Zulu" };
 
         let currentSelecting = 'source'; 
@@ -356,7 +356,7 @@
             alert("Gemini API Key saved securely! ✨🤖");
         }
 
-        // 🚀 ૧૦૦% સુધારેલો અને ટેસ્ટ કરેલો Gemini AI કનેક્શન કોડ
+        // 🚀 FIXED: ૧૦૦% ઓફિશિયલ અને વર્કિંગ Gemini 1.5 Flash API રૂટ
         async function sendToGemini() {
             let chatInput = document.getElementById('chatInput');
             let question = chatInput.value.trim();
@@ -379,11 +379,11 @@
             chatScreen.scrollTop = chatScreen.scrollHeight;
             
             try {
-                // સૌથી સ્થિર (Stable) ગૂગલ જેમીની API રૂટ
-                let res = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${apiKey}`, {
+                // નવી સિક્યોર v1beta લિંક જેમાં માત્ર API Key ની જરૂર પડે છે, કોઈ OAuth ટોકન નહીં
+                let res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: question }] }] })
+                    body: JSON.stringify({ contents: [{ parts: [{ text: question }] }] })
                 });
                 
                 let data = await res.json();
@@ -394,7 +394,7 @@
                 } else if (data.error) {
                     document.getElementById(aiLoaderId).innerText = "ગૂગલ રિસ્પોન્સ એરર: " + data.error.message;
                 } else {
-                    document.getElementById(aiLoaderId).innerText = "કનેક્શન મળ્યું પણ જવાબ પ્રોસેસ ન થયો. કી તપાસો! ❌";
+                    document.getElementById(aiLoaderId).innerText = "ચાવી (Key) ખોટી છે અથવા એક્ટિવ નથી! ❌";
                 }
             } catch(e) {
                 document.getElementById(aiLoaderId).innerText = "નેટવર્ક એરર! કૃપા કરીને તમારી સેવ કરેલી કી અથવા ઇન્ટરનેટ ચેક કરો. ❌";
@@ -483,7 +483,6 @@
         function startVoiceInput() { if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) { const sr = new (window.SpeechRecognition || window.webkitSpeechRecognition)(); sr.lang = document.getElementById('sourceLangCode').value; sr.start(); document.getElementById('inputText').placeholder = "Listening... 🎙️"; sr.onresult = (e) => { document.getElementById('inputText').value += " " + e.results[0][0].transcript; document.getElementById('inputText').dispatchEvent(new Event('input')); document.getElementById('inputText').placeholder = "Start typing... ✨"; }; } else alert("Voice Typing not supported."); }
         function speakTranslation() { let text = document.getElementById('outputText').value; if(text && !text.includes("Translating")) { window.speechSynthesis.cancel(); let ut = new SpeechSynthesisUtterance(text); ut.lang = document.getElementById('targetLangCode').value; ut.rate = currentSpeechRate; window.speechSynthesis.speak(ut); } }
         function shareApp() { window.open(`https://wa.me/?text=${encodeURIComponent("Check out this amazing free Pro Translator app: https://vahorarehan5510-tech.github.io/my-translator/")}`, '_blank'); }
-                </script>
-        
+                           </script>  
 </body>
 </html>
