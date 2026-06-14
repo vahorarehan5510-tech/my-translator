@@ -112,13 +112,18 @@
         .rating-stars label { font-size: 35px; color: #ccc; cursor: pointer; text-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .rating-stars input:checked ~ label, .rating-stars label:hover, .rating-stars label:hover ~ label { color: #ffcc00; }
 
+        /* Custom Styles For About & Contact Content layout */
+        .info-list { list-style: none; margin: 15px 0; }
+        .info-list li { padding: 10px 14px; margin-bottom: 8px; background: rgba(0,0,0,0.02); border-radius: 12px; border-left: 3px solid #667eea; font-size: 14px; }
+        .dark-mode .info-list li { background: rgba(255,255,255,0.02); }
+
         @media (min-width: 768px) { .text-panels { flex-direction: row; gap: 20px; } textarea { height: 220px !important; } .text-box-wrap { flex: 1; } .main-content { max-width: 900px; } }
     </style>
 </head>
-    <body>
+<body>
 
     <div id="splash-screen">
-      <centre> <h2>✨ Rehan Free Translator</h2></centre>
+        <center><h1>✨ Rehan Free Translator</h1></center>
         <p><b>Loading magic...</b></p>
     </div>
 
@@ -139,6 +144,8 @@
             <li><a href="#" onclick="showSection('translator')">🏠 Home (હોમ)</a></li>
             <li><a href="#" onclick="showSection('dictionary')">📖 Pro Dictionary</a></li>
             <li><a href="#" onclick="showSection('history')">📜 History (હિસ્ટ્રી)</a></li>
+            <li><a href="#" onclick="showSection('about')">ℹ️ About Us (અમારા વિશે)</a></li>
+            <li><a href="#" onclick="showSection('contact')">📞 Contact Us (સંપર્ક કરો)</a></li>
             <li><a href="#" onclick="showSection('settings')">⚙️ Settings (સેટિંગ્સ)</a></li>
             <li><a href="#" onclick="shareApp()">🔗 Share App (એપ શેર કરો)</a></li>
             <li><a href="#" onclick="openInstallModal()" style="color: #667eea; font-weight: bold;">📥 How to Download 📲</a></li>
@@ -199,6 +206,59 @@
                 <button class="btn" style="background: rgba(220, 53, 69, 0.1); color: #dc3545; padding: 6px 12px; font-size: 12px; box-shadow: none;" onclick="clearHistory()">Clear All</button>
             </div>
             <div class="history-list" id="historyList"></div>
+        </div>
+
+        <div class="container hidden" id="about-section">
+            <div class="text-box-wrap" style="gap: 15px;">
+                <h3 style="font-size: 18px; font-weight: 600; color: #667eea; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">Welcome to Rehan Free Translator!</h3>
+                <p style="font-size: 14px; line-height: 1.6; opacity: 0.9;">
+                    Rehan Free Translator is a free online translation tool designed to help users translate text quickly and easily between multiple languages.
+                </p>
+                <p style="font-size: 14px; line-height: 1.6; opacity: 0.9;">
+                    Our goal is to provide a simple, fast, and user-friendly translation experience for everyone.
+                </p>
+                
+                <h4 style="font-size: 15px; font-weight: 600; margin-top: 5px;">Features:</h4>
+                <ul class="info-list">
+                    <li>🌍 Multiple Language Support</li>
+                    <li>🎤 Voice Input</li>
+                    <li>🔊 Text-to-Speech</li>
+                    <li>📜 Translation History</li>
+                    <li>📱 Mobile-Friendly Design</li>
+                </ul>
+
+                <p style="font-size: 14px; line-height: 1.6; opacity: 0.9; font-style: italic;">
+                    Thank you for using Rehan Free Translator and supporting our project.
+                </p>
+                <div style="text-align: right; font-weight: 600; font-size: 14px; color: #764ba2; margin-top: 5px;">
+                    ✨ Rehan Free Translator
+                </div>
+            </div>
+        </div>
+
+        <div class="container hidden" id="contact-section">
+            <div class="text-box-wrap" style="gap: 15px; text-align: center;">
+                <h3 style="font-size: 20px; font-weight: 600; color: #667eea; margin-bottom: 5px;">📞 Contact Us</h3>
+                <p style="font-size: 14px; line-height: 1.6; opacity: 0.9;">
+                    Thank you for using Rehan Free Translator.
+                </p>
+                <p style="font-size: 14px; line-height: 1.6; opacity: 0.9; margin-top: -5px;">
+                    For support, suggestions, or feedback, please contact:
+                </p>
+                
+                <div class="meaning-row" style="margin: 15px auto; width: 100%; max-width: 400px; text-align: center; border-left: none; border-top: 3px solid #667eea;">
+                    <span style="font-size: 16px; font-weight: 600;">📧 Email:</span> 
+                    <a href="mailto:vahorarehan5510@gmail.com" style="color: inherit; font-weight: 500; text-decoration: underline; margin-left: 5px;">vahorarehan5510@gmail.com</a>
+                </div>
+
+                <p style="font-size: 13px; opacity: 0.7; font-style: italic;">
+                    We value your feedback and will try to respond as soon as possible.
+                </p>
+                
+                <div style="font-weight: 600; font-size: 14px; color: #764ba2; margin-top: 10px; border-top: 1px solid var(--border-color); padding-top: 15px;">
+                    🌍 Rehan Free Translator Team
+                </div>
+            </div>
         </div>
 
         <div class="container hidden" id="settings-section">
@@ -300,7 +360,8 @@
             </div>
         </div>
     </div>
-        <script>
+
+    <script>
         const languages = { "af": "Afrikaans", "sq": "Albanian", "am": "Amharic", "ar": "Arabic", "hy": "Armenian", "bn": "Bengali", "bg": "Bulgarian", "my": "Burmese", "zh": "Chinese", "hr": "Croatian", "cs": "Czech", "da": "Danish", "nl": "Dutch", "en": "English", "et": "Estonian", "fi": "Finnish", "fr": "French", "ka": "Georgian", "de": "German", "el": "Greek", "gu": "Gujarati", "he": "Hebrew", "hi": "Hindi", "hu": "Hungarian", "is": "Icelandic", "id": "Indonesian", "it": "Italian", "ja": "Japanese", "kn": "Kannada", "kk": "Kazakh", "km": "Khmer", "ko": "Korean", "lo": "Lao", "la": "Latin", "lv": "Latvian", "lt": "Lithuanian", "ms": "Malay", "ml": "Malayalam", "mr": "Marathi", "ne": "Nepali", "no": "Norwegian", "fa": "Persian", "pl": "Polish", "pt": "Portuguese", "pa": "Punjabi", "ro": "Romanian", "ru": "Russian", "sr": "Serbian", "si": "Sinhala", "sk": "Slovak", "sl": "Slovenian", "es": "Spanish", "sw": "Swahili", "sv": "Swedish", "ta": "Tamil", "te": "Telugu", "th": "Thai", "tr": "Turkish", "uk": "Ukrainian", "ur": "Urdu", "uz": "Uzbek", "vi": "Vietnamese", "cy": "Welsh", "zu": "Zulu" };
 
         let currentSelecting = 'source'; 
@@ -386,16 +447,32 @@
         function copyText() { let out = document.getElementById("outputText"); if(out.value && !out.value.includes("Translating")) { navigator.clipboard.writeText(out.value); alert("Text copied! ✨"); } }
         async function translateText() { let text = document.getElementById("inputText").value.trim(); let srcLang = document.getElementById("sourceLangCode").value; let tgtLang = document.getElementById("targetLangCode").value; let outBox = document.getElementById("outputText"); if (!text) { outBox.value = ""; return; } outBox.value = "✨ Translating..."; try { let res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${srcLang}|${tgtLang}`); let data = await res.json(); outBox.value = data.responseData.translatedText; saveToHistory(text, outBox.value, languages[srcLang], languages[tgtLang]); } catch (e) { outBox.value = "Error translating. Check connection."; } }
 
-        function toggleMenu() { document.getElementById('sidebar').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
+        toggleMenu = () => { document.getElementById('sidebar').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); };
         function toggleDarkMode() { document.body.classList.toggle('dark-mode'); }
-        function showSection(id) { document.querySelectorAll('.container').forEach(c => c.classList.add('hidden')); document.getElementById(id + '-section').classList.remove('hidden'); let titles = { 'translator': '✨ Pro Translator', 'dictionary': '📖 Pro Dictionary', 'history': '📜 History', 'settings': '⚙️ Settings' }; document.getElementById('page-title').innerText = titles[id]; if(id === 'history') displayHistory(); toggleMenu(); }
+        
+        function showSection(id) { 
+            document.querySelectorAll('.container').forEach(c => c.classList.add('hidden')); 
+            document.getElementById(id + '-section').classList.remove('hidden'); 
+            let titles = { 
+                'translator': '✨ Rehan Free Translator', 
+                'dictionary': '📖 Pro Dictionary', 
+                'history': '📜 History', 
+                'about': 'ℹ️ About Us', 
+                'contact': '📞 Contact Us', 
+                'settings': '⚙️ Settings' 
+            }; 
+            document.getElementById('page-title').innerText = titles[id]; 
+            if(id === 'history') displayHistory(); 
+            toggleMenu(); 
+        }
+        
         function updateSpeed(val) { currentSpeechRate = val; document.getElementById('speedVal').innerText = val; }
         function changeTheme(themeName) { document.body.classList.remove('theme-pink', 'theme-green'); if(themeName !== 'default') document.body.classList.add('theme-' + themeName); }
         function openLangModal(type) { currentSelecting = type; let list = document.getElementById('langList'); list.innerHTML = ""; document.getElementById('langSearch').value = ""; for(let code in languages) { let li = document.createElement("li"); li.innerText = languages[code]; li.onclick = () => selectLanguage(code, languages[code]); list.appendChild(li); } document.getElementById('langModal').classList.remove('hidden'); setTimeout(() => document.getElementById('langSearch').focus(), 100); }
         function closeLangModal() { document.getElementById('langModal').classList.add('hidden'); }
         function filterLanguages() { let filter = document.getElementById('langSearch').value.toLowerCase(); let lis = document.getElementById('langList').getElementsByTagName('li'); for(let i=0; i<lis.length; i++) lis[i].style.display = lis[i].innerText.toLowerCase().includes(filter) ? "" : "none"; }
         function selectLanguage(code, name) { if(currentSelecting === 'source') { document.getElementById('sourceLangCode').value = code; document.getElementById('srcLangText').innerText = name; } else { document.getElementById('targetLangCode').value = code; document.getElementById('tgtLangText').innerText = name; } closeLangModal(); translateText(); }
-        function swapLanguages() { let sC = document.getElementById("sourceLangCode").value; let sN = document.getElementById("srcLangText").innerText; let tC = document.getElementById("targetLangCode").value; let tN = document.getElementById("targetLangCode").value = sC; document.getElementById("srcLangText").innerText = sN; let inTxt = document.getElementById("inputText").value; let outTxt = document.getElementById("outputText").value; document.getElementById("inputText").value = outTxt; document.getElementById("outputText").value = inTxt; if (document.getElementById("inputText").value.trim() !== "") translateText(); }
+        function swapLanguages() { let sC = document.getElementById("sourceLangCode").value; let sN = document.getElementById("srcLangText").innerText; let tC = document.getElementById("targetLangCode").value; let tN = document.getElementById("tgtLangText").innerText; document.getElementById("sourceLangCode").value = tC; document.getElementById("srcLangText").innerText = tN; document.getElementById("targetLangCode").value = sC; document.getElementById("tgtLangText").innerText = sN; let inTxt = document.getElementById("inputText").value; let outTxt = document.getElementById("outputText").value; document.getElementById("inputText").value = outTxt; document.getElementById("outputText").value = inTxt; if (document.getElementById("inputText").value.trim() !== "") translateText(); }
         function saveToHistory(src, tgt, srcL, tgtL) { let hist = JSON.parse(localStorage.getItem("translation_history")) || []; if (hist.length > 0 && hist[0].sourceText === src) return; hist.unshift({ sourceText: src, targetText: tgt, srcLang: srcL, tgtLang: tgtL }); if (hist.length > 20) hist.pop(); localStorage.setItem("translation_history", JSON.stringify(hist)); }
         function displayHistory() { let hist = JSON.parse(localStorage.getItem("translation_history")) || []; let list = document.getElementById("historyList"); list.innerHTML = ""; if (hist.length === 0) { list.innerHTML = '<div style="text-align:center; opacity:0.7; padding-top:20px;">No history found.</div>'; return; } hist.forEach((item) => { list.innerHTML += `<div class="history-item"><div style="color:#667eea; font-size:12px; font-weight:bold; margin-bottom:5px;">${item.srcLang} ➔ ${item.tgtLang}</div><div><strong style="opacity:0.8;">Original:</strong> <br>${item.sourceText}</div><div style="margin-top:5px;"><strong style="opacity:0.8;">Translated:</strong> <br>${item.targetText}</div></div>`; }); }
         function clearHistory() { if(confirm("Delete all history?")) { localStorage.removeItem("translation_history"); displayHistory(); } }
