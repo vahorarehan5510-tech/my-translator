@@ -9,28 +9,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-gradient: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
-            --nav-bg: rgba(255, 255, 255, 0.85);
-            --input-bg: #ffffff;
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --input-bg: rgba(255, 255, 255, 0.7);
             --text-color: #2c3e50;
-            --border-color: rgba(0, 0, 0, 0.05);
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --shadow-color: rgba(0, 0, 0, 0.06);
+            --border-color: rgba(255, 255, 255, 0.6);
+            --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            --shadow-color: rgba(31, 38, 135, 0.06);
             --sidebar-bg: #ffffff;
+            --glow-color: rgba(99, 102, 241, 0.2);
         }
 
         .dark-mode {
-            --bg-gradient: linear-gradient(135deg, #141e30 0%, #243b55 100%);
-            --nav-bg: rgba(20, 30, 48, 0.85);
-            --input-bg: #1e2d3b;
-            --text-color: #f5f6fa;
-            --border-color: rgba(255, 255, 255, 0.08);
-            --primary-gradient: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
-            --sidebar-bg: #141e30;
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            --nav-bg: rgba(15, 23, 42, 0.8);
+            --input-bg: rgba(30, 41, 59, 0.7);
+            --text-color: #f8fafc;
+            --border-color: rgba(255, 255, 255, 0.05);
+            --primary-gradient: linear-gradient(135deg, #38bdf8 0%, #0369a1 100%);
+            --sidebar-bg: #0f172a;
+            --glow-color: rgba(56, 189, 248, 0.2);
         }
 
         body.theme-pink { --bg-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
-        body.theme-green { --bg-gradient: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); }
+        body.theme-green { --bg-gradient: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
         body { background: var(--bg-gradient); color: var(--text-color); transition: 0.4s ease; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; background-attachment: fixed; }
@@ -41,41 +43,159 @@
         #splash-screen p { font-size: 13px; opacity: 0.6; margin-top: 8px; color: var(--text-color); }
         @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.05); } }
 
-        .navbar { display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; background: var(--nav-bg); backdrop-filter: blur(15px); position: sticky; top: 0; z-index: 900; box-shadow: 0 2px 10px var(--shadow-color); }
+        .navbar { display: flex; align-items: center; justify-content: space-between; padding: 15px 20px; background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 900; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03); border-bottom: 1px solid var(--border-color); }
         .nav-left { display: flex; align-items: center; gap: 15px; }
         .menu-btn { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 6px; z-index: 1001; }
         .menu-btn span { display: block; width: 26px; height: 3px; background-color: var(--text-color); border-radius: 3px; }
         
-        .sidebar { position: fixed; top: 0; left: -320px; width: 280px; height: 100%; background: var(--sidebar-bg); box-shadow: 5px 0 25px var(--shadow-color); transition: 0.4s; z-index: 1000; padding: 30px 20px; overflow-y: auto; }
+        .sidebar { position: fixed; top: 0; left: -320px; width: 280px; height: 100%; background: var(--sidebar-bg); box-shadow: 5px 0 25px var(--shadow-color); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; padding: 30px 20px; overflow-y: auto; }
         .sidebar.active { transform: translateX(320px); }
         .sidebar-menu { list-style: none; margin-top: 20px; }
         .sidebar-menu li { margin-bottom: 10px; }
         .sidebar-menu a { text-decoration: none; color: var(--text-color); font-size: 15px; font-weight: 500; display: flex; align-items: center; padding: 12px 15px; border-radius: 12px; transition: 0.3s; }
-        .sidebar-menu a:hover { background: var(--input-bg); padding-left: 20px; }
+        .sidebar-menu a:hover { background: rgba(0,0,0,0.03); padding-left: 20px; }
+        .dark-mode .sidebar-menu a:hover { background: rgba(255,255,255,0.05); }
         
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 999; }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.2); backdrop-filter: blur(4px); z-index: 999; }
         .overlay.active { display: block; }
         
-        .main-content { flex: 1; display: flex; flex-direction: column; padding: 20px 15px; width: 100%; max-width: 650px; margin: 0 auto; gap: 15px; }
-        .container { width: 100%; display: flex; flex-direction: column; gap: 15px; }
+        .main-content { flex: 1; display: flex; flex-direction: column; padding: 25px 15px; width: 100%; max-width: 680px; margin: 0 auto; gap: 20px; }
+        .container { width: 100%; display: flex; flex-direction: column; gap: 20px; }
         .hidden { display: none !important; }
         
-        .controls { display: flex; align-items: center; justify-content: space-between; gap: 8px; background: var(--input-bg); padding: 6px 12px; border-radius: 20px; box-shadow: 0 4px 15px var(--shadow-color); border: 1px solid var(--border-color); width: 100%; }
-        .lang-btn { flex: 1; padding: 12px 5px; border: none; background: transparent; color: var(--text-color); font-size: 15px; font-weight: 600; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 5px; }
-        .swap-btn { background: var(--primary-gradient); color: white; border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px var(--shadow-color); flex-shrink: 0; }
+        /* કંટ્રોલ બાર */
+        .controls { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            background: var(--input-bg); 
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 6px 10px; 
+            border-radius: 40px; 
+            box-shadow: 0 8px 32px 0 var(--shadow-color); 
+            border: 1px solid var(--border-color); 
+            width: 100%; 
+        }
+
+        .lang-btn { 
+            flex: 1; 
+            padding: 12px 5px; 
+            border: none; 
+            background: transparent; 
+            color: var(--text-color); 
+            font-size: 15px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+        .lang-btn:hover { opacity: 0.8; transform: scale(1.02); }
+
+        .swap-btn { 
+            background: var(--primary-gradient); 
+            color: white; 
+            border: none; 
+            border-radius: 50%; 
+            width: 44px; 
+            height: 44px; 
+            font-size: 18px; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            box-shadow: 0 4px 15px var(--glow-color); 
+            flex-shrink: 0; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .swap-btn:hover { transform: rotate(180deg) scale(1.08); }
         
-        .text-panels { display: flex; flex-direction: column; gap: 15px; width: 100%; }
-        .text-box-wrap { position: relative; display: flex; flex-direction: column; background: var(--input-bg); border-radius: 24px; padding: 16px; box-shadow: 0 4px 20px var(--shadow-color); border: 1px solid var(--border-color); }
+        .text-panels { display: flex; flex-direction: column; gap: 20px; width: 100%; }
         
-        textarea { width: 100%; height: 130px; padding: 0; border: none; background: transparent; color: var(--text-color); font-size: 16px; resize: none; outline: none; line-height: 1.6; font-weight: 400; }
+        /* ટેક્સ્ટ કાર્ડ્સ */
+        .text-box-wrap { 
+            position: relative; 
+            display: flex; 
+            flex-direction: column; 
+            background: var(--input-bg); 
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px; 
+            padding: 20px; 
+            box-shadow: 0 8px 32px 0 var(--shadow-color); 
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        .text-box-wrap:focus-within {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px var(--glow-color);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
         
-        .tool-bar { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px solid rgba(0,0,0,0.03); }
-        .dark-mode .tool-bar { border-top-color: rgba(255,255,255,0.04); }
+        textarea { width: 100%; height: 140px; padding: 0; border: none; background: transparent; color: var(--text-color); font-size: 16px; resize: none; outline: none; line-height: 1.6; font-weight: 400; }
         
-        .icon-btn { background: rgba(0,0,0,0.03); border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 15px; cursor: pointer; transition: 0.2s; color: var(--text-color); display: inline-flex; align-items: center; justify-content: center; }
-        .dark-mode .icon-btn { background: rgba(255,255,255,0.04); }
-        .icon-btn:hover { background: var(--primary-gradient); color: white; }
+        .tool-bar { display: flex; justify-content: space-between; align-items: center; padding-top: 14px; border-top: 1px solid rgba(0,0,0,0.04); }
+        .dark-mode .tool-bar { border-top-color: rgba(255,255,255,0.05); }
         
+        /* આઇકોન બટન્સ */
+        .icon-btn { 
+            background: rgba(0, 0, 0, 0.02); 
+            border: none; 
+            border-radius: 50%; 
+            width: 38px; 
+            height: 38px; 
+            font-size: 15px; 
+            cursor: pointer; 
+            transition: all 0.25s ease; 
+            color: var(--text-color); 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        .dark-mode .icon-btn { background: rgba(255, 255, 255, 0.03); }
+        .icon-btn:hover { 
+            background: var(--primary-gradient); 
+            color: white; 
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--glow-color);
+        }
+        
+        /* લોડિંગ એનિમેશન લાઇન */
+        .loader-bar {
+            position: absolute;
+            bottom: 0;
+            left: 5%;
+            width: 90%;
+            height: 3px;
+            background: var(--primary-gradient);
+            border-radius: 3px;
+            display: none;
+            overflow: hidden;
+        }
+        .loader-bar::after {
+            content: '';
+            display: block;
+            width: 40%;
+            height: 100%;
+            background: rgba(255,255,255,0.7);
+            animation: shimmer 1.2s infinite ease-in-out;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-150%); }
+            100% { transform: translateX(250%); }
+        }
+
+        .translating-pulse {
+            animation: textPulse 1s infinite alternate;
+            color: #4f46e5 !important;
+            font-weight: 500;
+        }
+        .dark-mode .translating-pulse { color: #38bdf8 !important; }
+        @keyframes textPulse { from { opacity: 0.5; } to { opacity: 1; } }
+
         .btn { padding: 12px 20px; border: none; border-radius: 14px; font-weight: 600; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px var(--shadow-color); }
         .btn-primary { background: var(--primary-gradient); color: white; width: 100%; margin-top: 5px; }
         .btn-secondary { background: var(--input-bg); border: 1px solid var(--border-color); color: var(--text-color); }
@@ -83,27 +203,29 @@
         /* ડિક્શનરી ડિઝાઇન */
         .dict-result-card { background: var(--input-bg); border-radius: 24px; padding: 20px; border: 1px solid var(--border-color); box-shadow: 0 8px 25px var(--shadow-color); margin-top: 5px; width: 100%; display: flex; flex-direction: column; gap: 12px; text-align: left; }
         .dict-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
-        .dict-title-word { font-size: 22px; font-weight: 600; color: #667eea; text-transform: capitalize; }
-        .dict-badge { font-size: 11px; background: rgba(102, 126, 234, 0.15); color: #667eea; padding: 3px 10px; border-radius: 20px; font-weight: 600; text-transform: uppercase; }
-        .meaning-row { background: rgba(0,0,0,0.02); padding: 10px 14px; border-radius: 14px; font-size: 15px; border-left: 4px solid #667eea; }
+        .dict-title-word { font-size: 22px; font-weight: 600; color: #4f46e5; text-transform: capitalize; }
+        .dict-badge { font-size: 11px; background: rgba(99, 102, 241, 0.15); color: #4f46e5; padding: 3px 10px; border-radius: 20px; font-weight: 600; text-transform: uppercase; }
+        .meaning-row { background: rgba(0,0,0,0.02); padding: 10px 14px; border-radius: 14px; font-size: 15px; border-left: 4px solid #4f46e5; }
         .def-section { font-size: 14px; color: var(--text-color); opacity: 0.9; line-height: 1.6; }
 
-        /* પ્રાઇવસી પોલિસી ટેક્સ્ટ સ્ટાઇલ */
-        .policy-content-text { text-align: left; font-size: 14px; line-height: 1.7; margin-top: 10px; max-height: 250px; overflow-y: auto; padding-right: 5px; }
+        .policy-content-text { text-align: left; font-size: 14px; line-height: 1.7; margin-top: 10px; max-height: 320px; overflow-y: auto; padding-right: 5px; }
         .policy-content-text p { margin-bottom: 12px; }
 
         /* Modal Design */
-        .modal { display: flex; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); backdrop-filter: blur(5px); justify-content: center; align-items: center; padding: 15px; }
-        .modal-content { background: var(--sidebar-bg); padding: 20px; border-radius: 24px; width: 100%; max-width: 400px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); display: flex; flex-direction: column; max-height: 85vh; border: 1px solid var(--border-color); }
+        .modal { display: flex; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.2); backdrop-filter: blur(8px); justify-content: center; align-items: center; padding: 15px; }
+        .modal-content { background: var(--sidebar-bg); padding: 25px 20px; border-radius: 24px; width: 100%; max-width: 450px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); display: flex; flex-direction: column; max-height: 85vh; border: 1px solid var(--border-color); }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
         .close-btn { font-size: 24px; cursor: pointer; font-weight: bold; color: var(--text-color); }
         .search-box { width: 100%; padding: 12px; border-radius: 14px; border: 1px solid var(--border-color); background: var(--input-bg); color: var(--text-color); font-size: 15px; outline: none; margin-bottom: 15px; }
+        
+        /* ફ્લેગ લિસ્ટ ડિઝાઇન */
         .lang-list { list-style: none; overflow-y: auto; flex: 1; }
-        .lang-list li { padding: 12px; border-bottom: 1px solid var(--border-color); cursor: pointer; border-radius: 8px; font-size: 14px; }
+        .lang-list li { padding: 12px; border-bottom: 1px solid var(--border-color); cursor: pointer; border-radius: 8px; font-size: 14.5px; display: flex; align-items: center; gap: 12px; font-weight: 500; color: var(--text-color); }
         .lang-list li:hover { background: var(--primary-gradient); color: white; }
+        .lang-list li span.flag-icon { font-size: 18px; }
 
         .history-list { display: flex; flex-direction: column; gap: 12px; max-height: 450px; overflow-y: auto; }
-        .history-item { background: var(--input-bg); padding: 15px; border-radius: 18px; border-left: 4px solid #667eea; font-size: 14px; box-shadow: 0 4px 15px var(--shadow-color); border: 1px solid var(--border-color); }
+        .history-item { background: var(--input-bg); padding: 15px; border-radius: 18px; border-left: 4px solid #4f46e5; font-size: 14px; box-shadow: 0 4px 15px var(--shadow-color); border: 1px solid var(--border-color); }
         
         .theme-boxes { display: flex; gap: 15px; margin-top: 10px; }
         .theme-box { width: 38px; height: 38px; border-radius: 50%; cursor: pointer; border: 1px solid var(--border-color); }
@@ -112,10 +234,8 @@
         .rating-stars label { font-size: 35px; color: #ccc; cursor: pointer; text-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .rating-stars input:checked ~ label, .rating-stars label:hover, .rating-stars label:hover ~ label { color: #ffcc00; }
 
-        /* Custom Styles For About & Contact Content layout */
         .info-list { list-style: none; margin: 15px 0; }
-        .info-list li { padding: 10px 14px; margin-bottom: 8px; background: rgba(0,0,0,0.02); border-radius: 12px; border-left: 3px solid #667eea; font-size: 14px; }
-        .dark-mode .info-list li { background: rgba(255,255,255,0.02); }
+        .info-list li { padding: 10px 14px; margin-bottom: 8px; background: rgba(0,0,0,0.01); border-radius: 12px; border-left: 3px solid #4f46e5; font-size: 14px; display: flex; align-items: center; gap: 8px; }
 
         @media (min-width: 768px) { .text-panels { flex-direction: row; gap: 20px; } textarea { height: 220px !important; } .text-box-wrap { flex: 1; } .main-content { max-width: 900px; } }
     </style>
@@ -123,7 +243,7 @@
 <body>
 
     <div id="splash-screen">
-        <center><h1>✨ Rehan Free Translator</h1></center>
+        <center><h2>✨ Rehan Free Translator</h2></center>
         <p><b>Loading magic...</b></p>
     </div>
 
@@ -148,7 +268,7 @@
             <li><a href="#" onclick="showSection('contact')">📞 Contact Us (સંપર્ક કરો)</a></li>
             <li><a href="#" onclick="showSection('settings')">⚙️ Settings (સેટિંગ્સ)</a></li>
             <li><a href="#" onclick="shareApp()">🔗 Share App (એપ શેર કરો)</a></li>
-            <li><a href="#" onclick="openInstallModal()" style="color: #667eea; font-weight: bold;">📥 How to Download 📲</a></li>
+            <li><a href="#" onclick="openInstallModal()" style="color: #4f46e5; font-weight: bold;">📥 How to Download 📲</a></li>
             <li><a href="#" onclick="openPrivacyModal()">🔒 Privacy Policy</a></li>
         </ul>
     </div>
@@ -168,24 +288,25 @@
                 <div class="text-box-wrap">
                     <textarea id="inputText" placeholder="અહીં લખો... Typing auto-translates ✨"></textarea>
                     <div class="tool-bar">
-                        <span id="counter" style="font-size: 11px; opacity: 0.5; font-weight: 500;">0 Words</span>
-                        <div style="display:flex; gap:8px;">
-                            <button class="icon-btn" onclick="startVoiceInput()">🎙️</button>
-                            <button class="icon-btn" onclick="clearText()">🗑️</button>
+                        <span id="counter" style="font-size: 11.5px; opacity: 0.6; font-weight: 500;">0 Words</span>
+                        <div style="display:flex; gap:10px;">
+                            <button class="icon-btn" onclick="startVoiceInput()" title="Voice Input">🎙️</button>
+                            <button class="icon-btn" onclick="clearText()" title="Clear Text">🗑️</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="text-box-wrap">
+                <div class="text-box-wrap" id="outputContainer">
                     <textarea id="outputText" placeholder="અહીં ભાષાંતર દેખાશે..." readonly></textarea>
                     <div class="tool-bar">
-                        <span style="font-size: 11px; opacity: 0.5; font-weight: 500;">✨ Translation</span>
-                        <div style="display:flex; gap:8px;">
-                            <button class="icon-btn" onclick="speakTranslation()">🔊</button>
-                            <button class="icon-btn" onclick="copyText()">📋</button>
-                            <button class="icon-btn" onclick="shareTranslation()">📲</button>
+                        <span id="translation-status" style="font-size: 11.5px; opacity: 0.6; font-weight: 500;">✨ Translation</span>
+                        <div style="display:flex; gap:10px;">
+                            <button class="icon-btn" onclick="speakTranslation()" title="Listen">🔊</button>
+                            <button class="icon-btn" onclick="copyText()" title="Copy Clipboard">📋</button>
+                            <button class="icon-btn" onclick="shareTranslation()" title="Share on WhatsApp">📲</button>
                         </div>
                     </div>
+                    <div class="loader-bar" id="shimmerLine"></div>
                 </div>
             </div>
         </div>
@@ -194,7 +315,7 @@
             <div class="text-box-wrap" style="gap: 12px;">
                 <h3 style="font-size: 16px; font-weight: 600;">📖 Premium Word Dictionary</h3>
                 <p style="font-size: 12px; opacity: 0.7; margin-top: -5px;">અંગ્રેજી શબ્દ લખીને સર્ચ કરો (દા.ત. Beautiful, School):</p>
-                <input type="text" id="dictInput" placeholder="Enter English word..." style="width: 100%; padding: 12px; border-radius: 14px; border:1px solid var(--border-color); background:var(--bg-gradient); color:var(--text-color); font-size:15px; outline: none; background-image: none;">
+                <input type="text" id="dictInput" placeholder="Enter English word..." style="width: 100%; padding: 12px; border-radius: 14px; border:1px solid var(--border-color); background:rgba(0,0,0,0.02); color:var(--text-color); font-size:15px; outline: none;">
                 <button class="btn btn-primary" onclick="searchSmartDictionary()">Search Word 🔍</button>
             </div>
             <div id="dictResultContainer"></div>
@@ -210,52 +331,52 @@
 
         <div class="container hidden" id="about-section">
             <div class="text-box-wrap" style="gap: 15px;">
-                <h3 style="font-size: 18px; font-weight: 600; color: #667eea; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">Welcome to Rehan Free Translator!</h3>
-                <p style="font-size: 14px; line-height: 1.6; opacity: 0.9;">
+                <h3 style="font-size: 20px; font-weight: 600; color: #4f46e5; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">Welcome to Rehan Free Translator!</h3>
+                <p style="font-size: 14.5px; line-height: 1.6; opacity: 0.9;">
                     Rehan Free Translator is a free online translation tool designed to help users translate text quickly and easily between multiple languages.
                 </p>
-                <p style="font-size: 14px; line-height: 1.6; opacity: 0.9;">
+                <p style="font-size: 14.5px; line-height: 1.6; opacity: 0.9;">
                     Our goal is to provide a simple, fast, and user-friendly translation experience for everyone.
                 </p>
                 
-                <h4 style="font-size: 15px; font-weight: 600; margin-top: 5px;">Features:</h4>
+                <h4 style="font-size: 16px; font-weight: 600; margin-top: 10px; color: #7c3aed;">Features:</h4>
                 <ul class="info-list">
-                    <li>🌍 Multiple Language Support</li>
-                    <li>🎤 Voice Input</li>
-                    <li>🔊 Text-to-Speech</li>
-                    <li>📜 Translation History</li>
-                    <li>📱 Mobile-Friendly Design</li>
+                    <li><span>🌍</span> Multiple Language Support</li>
+                    <li><span>🎤</span> Voice Input</li>
+                    <li><span>🔊</span> Text-to-Speech</li>
+                    <li><span>📜</span> Translation History</li>
+                    <li><span>📱</span> Mobile-Friendly Design</li>
                 </ul>
 
-                <p style="font-size: 14px; line-height: 1.6; opacity: 0.9; font-style: italic;">
+                <p style="font-size: 14px; line-height: 1.6; opacity: 0.85; font-style: italic; margin-top: 5px;">
                     Thank you for using Rehan Free Translator and supporting our project.
                 </p>
-                <div style="text-align: right; font-weight: 600; font-size: 14px; color: #764ba2; margin-top: 5px;">
+                <div style="text-align: right; font-weight: 600; font-size: 14px; color: #7c3aed; margin-top: 10px;">
                     ✨ Rehan Free Translator
                 </div>
             </div>
         </div>
 
         <div class="container hidden" id="contact-section">
-            <div class="text-box-wrap" style="gap: 15px; text-align: center;">
-                <h3 style="font-size: 20px; font-weight: 600; color: #667eea; margin-bottom: 5px;">📞 Contact Us</h3>
-                <p style="font-size: 14px; line-height: 1.6; opacity: 0.9;">
+            <div class="text-box-wrap" style="gap: 15px; text-align: left;">
+                <h3 style="font-size: 20px; font-weight: 600; color: #4f46e5; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">📞 Contact Us</h3>
+                <p style="font-size: 14.5px; line-height: 1.6; opacity: 0.9;">
                     Thank you for using Rehan Free Translator.
                 </p>
-                <p style="font-size: 14px; line-height: 1.6; opacity: 0.9; margin-top: -5px;">
+                <p style="font-size: 14.5px; line-height: 1.6; opacity: 0.9;">
                     For support, suggestions, or feedback, please contact:
                 </p>
                 
-                <div class="meaning-row" style="margin: 15px auto; width: 100%; max-width: 400px; text-align: center; border-left: none; border-top: 3px solid #667eea;">
+                <div class="meaning-row" style="margin: 15px 0; width: 100%; border-left: 4px solid #4f46e5; background: rgba(99, 102, 241, 0.04); padding: 12px 16px;">
                     <span style="font-size: 16px; font-weight: 600;">📧 Email:</span> 
-                    <a href="mailto:vahorarehan5510@gmail.com" style="color: inherit; font-weight: 500; text-decoration: underline; margin-left: 5px;">vahorarehan5510@gmail.com</a>
+                    <a href="mailto:vahorarehan5510@gmail.com" style="color: #4f46e5; font-weight: 500; text-decoration: underline; margin-left: 5px;">vahorarehan5510@gmail.com</a>
                 </div>
 
-                <p style="font-size: 13px; opacity: 0.7; font-style: italic;">
+                <p style="font-size: 14px; opacity: 0.85; font-style: italic;">
                     We value your feedback and will try to respond as soon as possible.
                 </p>
                 
-                <div style="font-weight: 600; font-size: 14px; color: #764ba2; margin-top: 10px; border-top: 1px solid var(--border-color); padding-top: 15px;">
+                <div style="font-weight: 600; font-size: 14px; color: #7c3aed; margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 12px; text-align: right;">
                     🌍 Rehan Free Translator Team
                 </div>
             </div>
@@ -271,9 +392,9 @@
                 <div style="border-top: 1px solid var(--border-color); padding-top: 15px;">
                     <label style="font-size: 14px;">🎨 Select Theme Color:</label>
                     <div class="theme-boxes">
-                        <div class="theme-box" style="background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);" onclick="changeTheme('default')"></div>
+                        <div class="theme-box" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);" onclick="changeTheme('default')"></div>
                         <div class="theme-box" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);" onclick="changeTheme('pink')"></div>
-                        <div class="theme-box" style="background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);" onclick="changeTheme('green')"></div>
+                        <div class="theme-box" style="background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);" onclick="changeTheme('green')"></div>
                     </div>
                 </div>
             </div>
@@ -295,35 +416,30 @@
     <div id="privacyModal" class="modal hidden">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 style="font-size: 16px;">🔒 Privacy Policy</h3>
+                <h3 style="font-size: 18px; font-weight: 600; color: #4f46e5;">🔒 Privacy Policy (પ્રાઇવસી પોલિસી)</h3>
                 <span class="close-btn" onclick="closePrivacyModal()">&times;</span>
             </div>
-            <p style="text-align: center; font-size: 12px; opacity: 0.8; margin-bottom: 10px;">પોલિસીની ભાષા પસંદ કરો / Select Language:</p>
+            <p style="text-align: center; font-size: 12.5px; opacity: 0.8; margin-bottom: 12px; font-weight: 500;">પોલિસીની ભાષા પસંદ કરો / Select Language:</p>
             
-            <div style="display: flex; gap: 8px; margin-bottom: 12px; justify-content: center; width: 100%;">
-                <button class="btn btn-secondary" style="flex:1; padding: 8px; font-size: 13px;" onclick="showPolicyText('gu')">ગુજરાતી</button>
-                <button class="btn btn-secondary" style="flex:1; padding: 8px; font-size: 13px;" onclick="showPolicyText('hi')">हिन्दी</button>
-                <button class="btn btn-secondary" style="flex:1; padding: 8px; font-size: 13px;" onclick="showPolicyText('en')">English</button>
+            <div style="display: flex; gap: 10px; margin-bottom: 15px; justify-content: center; width: 100%;">
+                <button class="btn btn-secondary" style="flex:1; padding: 10px; font-size: 13.5px; font-weight: 600;" onclick="showPolicyText('gu')">ગુજરાતી</button>
+                <button class="btn btn-secondary" style="flex:1; padding: 10px; font-size: 13.5px; font-weight: 600;" onclick="showPolicyText('en')">English</button>
             </div>
             
-            <div id="policy-placeholder" style="text-align: center; padding: 30px 0; font-size: 14px; opacity: 0.6;">👆 ઉપરથી કોઈપણ એક ભાષા પર ક્લિક કરો!</div>
+            <div id="policy-placeholder" style="text-align: center; padding: 40px 0; font-size: 14.5px; opacity: 0.6; font-style: italic;">👆 કૃપા કરીને ભાષા પસંદ કરો! / Please select a language!</div>
             
             <div id="policy-gu" class="policy-content-text hidden">
-                <p><strong>૧. ડેટા સુરક્ષા:</strong> આ એપમાં તમારા કોઈ પણ પર્સનલ ડેટા, નામ કે લોકેશન ટ્રેક કે સેવ કરવામાં આવતા નથી.</p>
-                <p><strong>૨. હિસ્ટ્રી કંટ્રોલ:</strong> તમારા ટ્રાન્સલેશનનો તમામ ડેટા માત્ર તમારા જ ફોનમાં લોકલ સેવ થાય છે. તમે 'Clear All' બટન દબાવીને તેને ગમે ત્યારે કાયમ માટે સાફ કરી શકો છો.</p>
-                <p><strong>૩. ૧૦૦% સેફ:</strong> આ એપ સંપૂર્ણપણે સુરક્ષિત છે અને તેમાં કોઈ બહારનું સર્વર ડેટા ચોરી કરતું નથી.</p>
-            </div>
-            
-            <div id="policy-hi" class="policy-content-text hidden">
-                <p><strong>1. डेटा सुरक्षा:</strong> इस ऐप में आपका कोई भी व्यक्तिगत डेटा, नाम या लोकेशन ट्रैक या सेव नहीं किया जाता है।</p>
-                <p><strong>2. हिस्ट्री कंट्रोल:</strong> आपका ट्रांसलेशन डेटा पूरी तरह आपके ही फोन में लोकल स्टोर रहता है। आप जब चाहें 'Clear All' बटन दबाकर इसे मिटा सकते हैं।</p>
-                <p><strong>3. १००% सुरक्षित:</strong> यह ऐप पूरी तरह सुरक्षित है और इसमें कोई बाहरी सर्वर शामिल नहीं है।</p>
+                <p><strong>૧. ડેટા સુરક્ષા અને પ્રાઇવસી (Data Security):</strong><br>અમે તમારા અંગત જીવન અને પ્રાઇવસીનું સંપૂર્ણ સન્માન કરીએ છીએ. આ એપ્લિકેશનમાં તમારા કોઈ પણ પ્રકારના પર્સનલ ડેટા જેવા કે નામ, ફોન નંબર, ઈમેલ આઈડી અથવા લાઈવ લોકેશન ક્યારેય ટ્રેક, કલેક્ટ કે સર્વર પર સેવ કરવામાં આવતા નથી.</p>
+                <p><strong>૨. લોકલ હિસ્ટ્રી મેનેજમેન્ટ (Local History Control):</strong><br>તમે એપમાં જે પણ ટેક્સ્ટનું ભાષાંતર (Translation) કરો છો, તેનો તમામ ડેટા માત્ર અને માત્ર તમારા જ મોબાઈલ ફોનની લોકલ સ્ટોરેજમાં સેવ થાય છે. આ ડેટા કોઈ ઓનલાઈન ક્લાઉડ કે ડેટાબેઝમાં જતો નથી. તમે ગમે ત્યારે 'History' સેક્શનમાં જઈને 'Clear All' બટન દબાવીને બધી જ હિસ્ટ્રી કાયમ માટે ડિલીટ કરી શકો છો.</p>
+                <p><strong>૩. ૧૦૦% સેફ અને સિક્યોર (100% Safe):</strong><br>Rehan Free Translator સંપૂર્ણપણે સુરક્ષિત પ્લેટફોર્મ છે. આ એપ ક્લાયન્ટ-સાઇડ સુરક્ષાના આધારે કામ કરે છે, જેથી કોઈ બહારનું થર્ડ પાર્ટી સર્વર તમારા ટ્રાન્સલેશન કન્ટેન્ટનો દુરુપયોગ કરી શકતું નથી.</p>
+                <p><strong>૪. કૂકીઝ અને બાહ્ય લિંક્સ (Cookies & Links):</strong><br>આ એપ કોઈ પણ પ્રકારની ટ્રેકિંગ કૂકીઝનો ઉપયોગ કરતી નથી. જો ભવિષ્યમાં કોઈ vanished કરવામાં આવશે તો તેની માહિતી અહીં અપડેટ કરવામાં આવશે.</p>
             </div>
             
             <div id="policy-en" class="policy-content-text hidden">
-                <p><strong>1. Data Privacy:</strong> This app does not track, collect, or store any of your personal information, name, or location.</p>
-                <p><strong>2. History Management:</strong> Your translation history is saved locally on your own device. You can easily erase it anytime using the 'Clear All' button.</p>
-                <p><strong>3. 100% Secure:</strong> The app is fully secure and relies solely on client-side functions without external server exploitation.</p>
+                <p><strong>1. Data Privacy & Collection:</strong><br>We deeply respect your privacy. Rehan Free Translator does not track, collect, or store any of your personal information, such as your name, email address, phone number, or geographical location. Your identity remains 100% anonymous.</p>
+                <p><strong>2. Local History Management:</strong><br>All your translation data and logs are saved strictly on your own local device storage. None of your inputs are uploaded to external databases or cloud servers. You retain absolute control over your logs and can clear your data permanently at any time via the 'Clear All' button in the History panel.</p>
+                <p><strong>3. Comprehensive Security:</strong><br>The application is designed focusing on client-side safety parameters. Since no remote data exploitation takes place, your converted sentences and texts stay fully confidential and completely isolated from third-party interventions.</p>
+                <p><strong>4. Policy Modifications:</strong><br>We may periodically update our Privacy Policy statement to maintain transparency. Feel free to review this section regularly for any minor optimizations.</p>
             </div>
         </div>
     </div>
@@ -331,14 +447,10 @@
     <div id="installModal" class="modal hidden">
         <div class="modal-content" style="text-align: center;">
             <div class="modal-header">
-                <h3 style="font-size: 16px;">📥 ફોનમાં એપ કેવી રીતે ડાઉનલોડ કરવી?</h3>
+                <h3 style="font-size: 16px;">📥 ડાઉનલોડ કેવી રીતે કરવું?</h3>
                 <span class="close-btn" onclick="closeInstallModal()">&times;</span>
             </div>
-            <div style="text-align: left; font-size: 13px; line-height: 1.8; margin-top: 10px;">
-                <p>૧. તમારા બ્રાઉઝરમાં સૌથી ઉપર જમણી બાજુ આપેલા <strong>ત્રણ ટપકાં (⋮)</strong> પર ક્લિક કરો.</p>
-                <p>૨. ત્યાં મેનુમાં <strong>'Add to Home screen'</strong> અથવા <strong>'Install app'</strong> પર ક્લિક કરો.</p>
-                <p>૩. હવે આપોઆપ આ એપ તમારા ફોનની હોમ સ્ક્રીન પર કોઈ અસલી એપની જેમ સેટ થઈ જશે! 📲✨</p>
-            </div>
+            <p style="text-align: left; font-size: 13px; line-height: 1.8;">૧. ઉપર જમણી બાજુ <strong>(⋮)</strong> પર ક્લિક કરો.<br>૨. <strong>'Add to Home screen'</strong> પર ક્લિક કરો.</p>
             <button class="btn btn-primary" style="margin-top: 15px;" onclick="closeInstallModal()">સમજી ગયો 👍</button>
         </div>
     </div>
@@ -346,7 +458,6 @@
     <div id="ratingModal" class="modal hidden">
         <div class="modal-content" style="text-align: center;">
             <h3 style="font-size: 18px;">⭐ Rate Our App</h3>
-            <p style="font-size: 13px; opacity: 0.8; margin-top: 5px;">Are you enjoying Pro Translator?</p>
             <div class="rating-stars">
                 <input type="radio" name="rating" id="star5" value="5"><label for="star5">★</label>
                 <input type="radio" name="rating" id="star4" value="4"><label for="star4">★</label>
@@ -362,7 +473,25 @@
     </div>
 
     <script>
-        const languages = { "af": "Afrikaans", "sq": "Albanian", "am": "Amharic", "ar": "Arabic", "hy": "Armenian", "bn": "Bengali", "bg": "Bulgarian", "my": "Burmese", "zh": "Chinese", "hr": "Croatian", "cs": "Czech", "da": "Danish", "nl": "Dutch", "en": "English", "et": "Estonian", "fi": "Finnish", "fr": "French", "ka": "Georgian", "de": "German", "el": "Greek", "gu": "Gujarati", "he": "Hebrew", "hi": "Hindi", "hu": "Hungarian", "is": "Icelandic", "id": "Indonesian", "it": "Italian", "ja": "Japanese", "kn": "Kannada", "kk": "Kazakh", "km": "Khmer", "ko": "Korean", "lo": "Lao", "la": "Latin", "lv": "Latvian", "lt": "Lithuanian", "ms": "Malay", "ml": "Malayalam", "mr": "Marathi", "ne": "Nepali", "no": "Norwegian", "fa": "Persian", "pl": "Polish", "pt": "Portuguese", "pa": "Punjabi", "ro": "Romanian", "ru": "Russian", "sr": "Serbian", "si": "Sinhala", "sk": "Slovak", "sl": "Slovenian", "es": "Spanish", "sw": "Swahili", "sv": "Swedish", "ta": "Tamil", "te": "Telugu", "th": "Thai", "tr": "Turkish", "uk": "Ukrainian", "ur": "Urdu", "uz": "Uzbek", "vi": "Vietnamese", "cy": "Welsh", "zu": "Zulu" };
+        // ભાષાઓના નામની સાથે સુંદર દેશના ફ્લેગ્સ (Flags Emoji) એડ કર્યા
+        const languages = { 
+            "en": "🇬🇧 English", "gu": "🇮🇳 Gujarati", "hi": "🇮🇳 Hindi", "ar": "🇦🇪 Arabic", 
+            "bn": "🇧🇩 Bengali", "zh": "🇨🇳 Chinese", "fr": "🇫🇷 French", "de": "🇩🇪 German", 
+            "it": "🇮🇹 Italian", "ja": "🇯🇵 Japanese", "kn": "🇮🇳 Kannada", "mr": "🇮🇳 Marathi", 
+            "ne": "🇳🇵 Nepali", "pa": "🇮🇳 Punjabi", "ru": "🇷🇺 Russian", "es": "🇪🇸 Spanish", 
+            "ta": "🇮🇳 Tamil", "te": "🇮🇳 Telugu", "ur": "🇵🇰 Urdu", "af": "🇿🇦 Afrikaans", 
+            "sq": "🇦🇱 Albanian", "am": "🇪🇹 Amharic", "hy": "🇦🇲 Armenian", "bg": "🇧🇬 Bulgarian", 
+            "my": "🇲🇲 Burmese", "hr": "🇭🇷 Croatian", "cs": "🇨🇿 Czech", "da": "🇩🇰 Danish", 
+            "nl": "🇳🇱 Dutch", "et": "🇪🇪 Estonian", "fi": "🇫🇮 Finnish", "ka": "🇬🇪 Georgian", 
+            "el": "🇬🇷 Greek", "he": "🇮🇱 Hebrew", "hu": "🇭🇺 Hungarian", "is": "🇮🇸 Icelandic", 
+            "id": "🇮🇩 Indonesian", "kk": "🇰🇿 Kazakh", "km": "🇰🇭 Khmer", "ko": "🇰🇷 Korean", 
+            "lo": "🇱🇦 Lao", "la": "🏛️ Latin", "lv": "🇱🇻 Latvian", "lt": "🇱🇹 Lithuanian", 
+            "ms": "🇲🇾 Malay", "ml": "🇮🇳 Malayalam", "no": "🇳🇴 Norwegian", "fa": "🇮🇷 Persian", 
+            "pl": "🇵🇱 Polish", "pt": "🇵🇹 Portuguese", "ro": "🇷🇴 Romanian", "sr": "🇷🇸 Serbian", 
+            "si": "🇱🇰 Sinhala", "sk": "🇸🇰 Slovak", "sl": "🇸🇮 Slovenian", "sw": "🇰🇪 Swahili", 
+            "sv": "🇸🇪 Swedish", "th": "🇹🇭 Thai", "tr": "🇹🇷 Turkish", "uk": "🇺🇦 Ukrainian", 
+            "uz": "🇺🇿 Uzbek", "vi": "🇻🇳 Vietnamese", "cy": "🏴󠁧󠁢󠁷󠁬󠁳󠁿 Welsh", "zu": "🇿🇦 Zulu" 
+        };
 
         let currentSelecting = 'source'; 
         let typingTimer; let currentSpeechRate = 0.9;
@@ -373,17 +502,14 @@
                 splash.style.opacity = '0';
                 setTimeout(() => splash.style.display = 'none', 500);
             }, 2000);
-
             if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
                 document.body.classList.add('dark-mode');
             }
-
             if (!localStorage.getItem('app_rated')) {
                 setTimeout(() => { document.getElementById('ratingModal').classList.remove('hidden'); }, 15000);
             }
         });
 
-        // સ્માર્ટ ડિક્શનરી કોડ
         async function searchSmartDictionary() {
             let word = document.getElementById('dictInput').value.trim();
             let resultContainer = document.getElementById('dictResultContainer');
@@ -400,26 +526,12 @@
                 let hiMeaning = hiData.responseData.translatedText;
 
                 if(!dictRes.ok) {
-                    resultContainer.innerHTML = `
-                        <div class="dict-result-card">
-                            <div class="dict-header"><div class="dict-title-word">🔍 ${word}</div><span class="dict-badge">Word</span></div>
-                            <div class="meaning-row"><strong>ગુજરાતી અર્થ:</strong> ${guMeaning}</div>
-                            <div class="meaning-row"><strong>हिन्दी अर्थ:</strong> ${hiMeaning}</div>
-                        </div>
-                    `;
+                    resultContainer.innerHTML = `<div class="dict-result-card"><div class="dict-header"><div class="dict-title-word">🔍 ${word}</div><span class="dict-badge">Word</span></div><div class="meaning-row"><strong>ગુજરાતી અર્થ:</strong> ${guMeaning}</div><div class="meaning-row"><strong>हिन्दी अर्थ:</strong> ${hiMeaning}</div></div>`;
                 } else {
                     let pos = dictData[0].meanings[0].partOfSpeech;
                     let def = dictData[0].meanings[0].definitions[0].definition;
                     let example = dictData[0].meanings[0].definitions[0].example || "";
-                    resultContainer.innerHTML = `
-                        <div class="dict-result-card">
-                            <div class="dict-header"><div class="dict-title-word">📖 ${word}</div><span class="dict-badge">${pos}</span></div>
-                            <div class="meaning-row"><strong>ગુજરાતી અર્થ:</strong> <span style="color:#764ba2; font-weight:600;">${guMeaning}</span></div>
-                            <div class="meaning-row"><strong>हिन्दी अर्थ:</strong> <span style="color:#667eea; font-weight:600;">${hiMeaning}</span></div>
-                            <div class="def-section" style="border-top:1px dashed rgba(0,0,0,0.08); padding-top:10px; margin-top:5px;"><strong>English Definition:</strong><br><span style="opacity:0.85;">${def}</span></div>
-                            ${example ? `<div class="def-section" style="color:gray; font-style:italic;"><strong>Example:</strong> "${example}"</div>` : ''}
-                        </div>
-                    `;
+                    resultContainer.innerHTML = `<div class="dict-result-card"><div class="dict-header"><div class="dict-title-word">📖 ${word}</div><span class="dict-badge">${pos}</span></div><div class="meaning-row"><strong>ગુજરાતી અર્થ:</strong> <span style="color:#4f46e5; font-weight:600;">${guMeaning}</span></div><div class="meaning-row"><strong>हिन्दी अर्थ:</strong> <span style="color:#7c3aed; font-weight:600;">${hiMeaning}</span></div><div class="def-section" style="border-top:1px dashed rgba(0,0,0,0.08); padding-top:10px; margin-top:5px;"><strong>English Definition:</strong><br>${def}</div>${example ? `<div class="def-section" style="color:gray; font-style:italic;"><strong>Example:</strong> "${example}"</div>` : ''}</div>`;
                 }
             } catch(e) { resultContainer.innerHTML = `<div style="text-align:center; color:red; padding:30px;">Internet error! ❌</div>`; }
         }
@@ -440,12 +552,38 @@
         function openInstallModal() { document.getElementById('installModal').classList.remove('hidden'); toggleMenu(); }
         function closeInstallModal() { document.getElementById('installModal').classList.add('hidden'); }
         function closeRatingModal() { document.getElementById('ratingModal').classList.add('hidden'); localStorage.setItem('app_rated', 'true'); }
-        function submitRating() { let r = document.querySelector('input[name="rating"]:checked'); if (r) { alert(`Thank you for ${r.value} Stars! ✨💖`); localStorage.setItem('app_rated', 'true'); document.getElementById('ratingModal').classList.add('hidden'); } else alert("Please select a star first! ⭐"); }
+        function submitRating() { let r = document.querySelector('input[name="rating"]:checked'); if (r) { alert(`Thank you for ${r.value} Stars! ✨`); localStorage.setItem('app_rated', 'true'); document.getElementById('ratingModal').classList.add('hidden'); } else alert("Please select a star first! ⭐"); }
 
         document.getElementById('inputText').addEventListener('input', () => { let text = document.getElementById('inputText').value; let words = text.trim() === "" ? 0 : text.trim().split(/\s+/).length; document.getElementById('counter').innerText = `${words} Words`; clearTimeout(typingTimer); typingTimer = setTimeout(translateText, 800); });
-        function clearText() { document.getElementById("inputText").value = ""; document.getElementById("outputText").value = ""; document.getElementById('counter').innerText = "0 Words"; }
+        function clearText() { document.getElementById("inputText").value = ""; document.getElementById("outputText").value = ""; document.getElementById('counter').innerText = "0 Words"; let line = document.getElementById("shimmerLine"); if(line) line.style.display = "none"; let statusText = document.getElementById("translation-status"); if(statusText) statusText.classList.remove('translating-pulse'); }
         function copyText() { let out = document.getElementById("outputText"); if(out.value && !out.value.includes("Translating")) { navigator.clipboard.writeText(out.value); alert("Text copied! ✨"); } }
-        async function translateText() { let text = document.getElementById("inputText").value.trim(); let srcLang = document.getElementById("sourceLangCode").value; let tgtLang = document.getElementById("targetLangCode").value; let outBox = document.getElementById("outputText"); if (!text) { outBox.value = ""; return; } outBox.value = "✨ Translating..."; try { let res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${srcLang}|${tgtLang}`); let data = await res.json(); outBox.value = data.responseData.translatedText; saveToHistory(text, outBox.value, languages[srcLang], languages[tgtLang]); } catch (e) { outBox.value = "Error translating. Check connection."; } }
+        
+        async function translateText() { 
+            let text = document.getElementById("inputText").value.trim(); 
+            let srcLang = document.getElementById("sourceLangCode").value; 
+            let tgtLang = document.getElementById("targetLangCode").value; 
+            let outBox = document.getElementById("outputText"); 
+            let statusText = document.getElementById("translation-status");
+            let line = document.getElementById("shimmerLine");
+
+            if (!text) { outBox.value = ""; if(line) line.style.display = "none"; if(statusText) statusText.classList.remove('translating-pulse'); return; } 
+            
+            if(statusText) { statusText.innerText = "✨ Translating..."; statusText.classList.add('translating-pulse'); }
+            if(line) line.style.display = "block";
+
+            try { 
+                let res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${srcLang}|${tgtLang}`); 
+                let data = await res.json(); 
+                outBox.value = data.responseData.translatedText; 
+                if(statusText) { statusText.innerText = "✨ Translation Ready"; statusText.classList.remove('translating-pulse'); }
+                if(line) line.style.display = "none";
+                saveToHistory(text, outBox.value, languages[srcLang], languages[tgtLang]); 
+            } catch (e) { 
+                outBox.value = "Error translating. Check connection."; 
+                if(line) line.style.display = "none";
+                if(statusText) statusText.innerText = "❌ Connection Error";
+            } 
+        }
 
         toggleMenu = () => { document.getElementById('sidebar').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); };
         function toggleDarkMode() { document.body.classList.toggle('dark-mode'); }
@@ -453,14 +591,7 @@
         function showSection(id) { 
             document.querySelectorAll('.container').forEach(c => c.classList.add('hidden')); 
             document.getElementById(id + '-section').classList.remove('hidden'); 
-            let titles = { 
-                'translator': '✨ Rehan Free Translator', 
-                'dictionary': '📖 Pro Dictionary', 
-                'history': '📜 History', 
-                'about': 'ℹ️ About Us', 
-                'contact': '📞 Contact Us', 
-                'settings': '⚙️ Settings' 
-            }; 
+            let titles = { 'translator': '✨ Rehan Free Translator', 'dictionary': '📖 Pro Dictionary', 'history': '📜 History', 'about': 'ℹ️ About Us', 'contact': '📞 Contact Us', 'settings': '⚙️ Settings' }; 
             document.getElementById('page-title').innerText = titles[id]; 
             if(id === 'history') displayHistory(); 
             toggleMenu(); 
@@ -468,13 +599,28 @@
         
         function updateSpeed(val) { currentSpeechRate = val; document.getElementById('speedVal').innerText = val; }
         function changeTheme(themeName) { document.body.classList.remove('theme-pink', 'theme-green'); if(themeName !== 'default') document.body.classList.add('theme-' + themeName); }
-        function openLangModal(type) { currentSelecting = type; let list = document.getElementById('langList'); list.innerHTML = ""; document.getElementById('langSearch').value = ""; for(let code in languages) { let li = document.createElement("li"); li.innerText = languages[code]; li.onclick = () => selectLanguage(code, languages[code]); list.appendChild(li); } document.getElementById('langModal').classList.remove('hidden'); setTimeout(() => document.getElementById('langSearch').focus(), 100); }
+        
+        // લિસ્ટ બનાવવા માટેનું ફંક્શન જેમાં ફ્લેગ્સ દેખાશે
+        function openLangModal(type) { 
+            currentSelecting = type; 
+            let list = document.getElementById('langList'); 
+            list.innerHTML = ""; 
+            document.getElementById('langSearch').value = ""; 
+            for(let code in languages) { 
+                let li = document.createElement("li"); 
+                li.innerHTML = languages[code]; 
+                li.onclick = () => selectLanguage(code, languages[code]); 
+                list.appendChild(li); 
+            } 
+            document.getElementById('langModal').classList.remove('hidden'); 
+            setTimeout(() => document.getElementById('langSearch').focus(), 100); 
+        }
         function closeLangModal() { document.getElementById('langModal').classList.add('hidden'); }
         function filterLanguages() { let filter = document.getElementById('langSearch').value.toLowerCase(); let lis = document.getElementById('langList').getElementsByTagName('li'); for(let i=0; i<lis.length; i++) lis[i].style.display = lis[i].innerText.toLowerCase().includes(filter) ? "" : "none"; }
         function selectLanguage(code, name) { if(currentSelecting === 'source') { document.getElementById('sourceLangCode').value = code; document.getElementById('srcLangText').innerText = name; } else { document.getElementById('targetLangCode').value = code; document.getElementById('tgtLangText').innerText = name; } closeLangModal(); translateText(); }
         function swapLanguages() { let sC = document.getElementById("sourceLangCode").value; let sN = document.getElementById("srcLangText").innerText; let tC = document.getElementById("targetLangCode").value; let tN = document.getElementById("tgtLangText").innerText; document.getElementById("sourceLangCode").value = tC; document.getElementById("srcLangText").innerText = tN; document.getElementById("targetLangCode").value = sC; document.getElementById("tgtLangText").innerText = sN; let inTxt = document.getElementById("inputText").value; let outTxt = document.getElementById("outputText").value; document.getElementById("inputText").value = outTxt; document.getElementById("outputText").value = inTxt; if (document.getElementById("inputText").value.trim() !== "") translateText(); }
         function saveToHistory(src, tgt, srcL, tgtL) { let hist = JSON.parse(localStorage.getItem("translation_history")) || []; if (hist.length > 0 && hist[0].sourceText === src) return; hist.unshift({ sourceText: src, targetText: tgt, srcLang: srcL, tgtLang: tgtL }); if (hist.length > 20) hist.pop(); localStorage.setItem("translation_history", JSON.stringify(hist)); }
-        function displayHistory() { let hist = JSON.parse(localStorage.getItem("translation_history")) || []; let list = document.getElementById("historyList"); list.innerHTML = ""; if (hist.length === 0) { list.innerHTML = '<div style="text-align:center; opacity:0.7; padding-top:20px;">No history found.</div>'; return; } hist.forEach((item) => { list.innerHTML += `<div class="history-item"><div style="color:#667eea; font-size:12px; font-weight:bold; margin-bottom:5px;">${item.srcLang} ➔ ${item.tgtLang}</div><div><strong style="opacity:0.8;">Original:</strong> <br>${item.sourceText}</div><div style="margin-top:5px;"><strong style="opacity:0.8;">Translated:</strong> <br>${item.targetText}</div></div>`; }); }
+        function displayHistory() { let hist = JSON.parse(localStorage.getItem("translation_history")) || []; let list = document.getElementById("historyList"); list.innerHTML = ""; if (hist.length === 0) { list.innerHTML = '<div style="text-align:center; opacity:0.7; padding-top:20px;">No history found.</div>'; return; } hist.forEach((item) => { list.innerHTML += `<div class="history-item"><div style="color:#4f46e5; font-size:12px; font-weight:bold; margin-bottom:5px;">${item.srcLang} ➔ ${item.tgtLang}</div><div><strong>Original:</strong><br>${item.sourceText}</div><div style="margin-top:5px;"><strong>Translated:</strong><br>${item.targetText}</div></div>`; }); }
         function clearHistory() { if(confirm("Delete all history?")) { localStorage.removeItem("translation_history"); displayHistory(); } }
         function shareTranslation() { let text = document.getElementById('outputText').value; if(text && !text.includes("Translating")) window.open(`https://wa.me/?text=${encodeURIComponent("Translated by Pro Translator ✨:\n\n" + text)}`, '_blank'); }
         function startVoiceInput() { if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) { const sr = new (window.SpeechRecognition || window.webkitSpeechRecognition)(); sr.lang = document.getElementById('sourceLangCode').value; sr.start(); document.getElementById('inputText').placeholder = "Listening... 🎙️"; sr.onresult = (e) => { document.getElementById('inputText').value += " " + e.results[0][0].transcript; document.getElementById('inputText').dispatchEvent(new Event('input')); document.getElementById('inputText').placeholder = "Start typing... ✨"; }; } else alert("Voice Typing not supported."); }
