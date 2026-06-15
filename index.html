@@ -592,7 +592,7 @@
         function showSection(id) { 
             document.querySelectorAll('.container').forEach(c => c.classList.add('hidden')); 
             document.getElementById(id + '-section').classList.remove('hidden'); 
-            let titles = { 'translator': '✨ Rehan Free Translator', 'dictionary': '📖 Pro Dictionary', 'history': '📜 History', 'about': 'ℹ️ About Us', 'contact': '📞 Contact Us', 'settings': '⚙️ Settings' }; 
+            let titles = { 'translator': '✨ 100% Free Translator', 'dictionary': '📖 Pro Dictionary', 'history': '📜 History', 'about': 'ℹ️ About Us', 'contact': '📞 Contact Us', 'settings': '⚙️ Settings' }; 
             document.getElementById('page-title').innerText = titles[id]; 
             if(id === 'history') displayHistory(); 
             toggleMenu(); 
