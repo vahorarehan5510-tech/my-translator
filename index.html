@@ -197,14 +197,14 @@
         }
         .dark-mode .corporate-input:focus { border-color: #38bdf8; }
 
-        /* CHAT CONTAINER & DICTIONARY MODULE */
+        /* CHAT CONTAINER & DICTIONARY MODULE - ૧૦૦% મોબાઇલ ફ્રેન્ડલી સુધારેલ ડિઝાઇન */
         .chat-block-container { display: flex; width: 100%; height: 540px; background: var(--input-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-radius: 24px; border: 1px solid var(--border-color); box-shadow: 0 10px 35px var(--shadow-color); overflow: hidden; position: relative; }
-        .chat-embedded-menu { width: 240px; background: var(--chat-menu-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 16px; gap: 14px; position: absolute; left: -240px; top: 0; height: 100%; z-index: 10; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 5px 0 15px rgba(0,0,0,0.05); }
+        .chat-embedded-menu { width: 240px; background: var(--chat-menu-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 16px; gap: 14px; position: absolute; left: -240px; top: 0; height: 100%; z-index: 910; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 5px 0 15px rgba(0,0,0,0.05); }
         .chat-embedded-menu.open { transform: translateX(240px); }
         .chat-action-btn-new { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; border-radius: 12px; border: 1px dashed var(--border-color); background: var(--sidebar-bg); color: var(--text-color); font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.2s; }
         .chat-action-btn-new:hover { border-color: #4f46e5; background: rgba(99,102,241,0.05); }
         
-        .chat-main-terminal { flex: 1; display: flex; flex-direction: column; background: transparent; position: relative; }
+        .chat-main-terminal { flex: 1; display: flex; flex-direction: column; background: transparent; position: relative; width: 100%; }
         .chat-top-header-bar { display: flex; align-items: center; gap: 12px; padding: 12px 20px; border-bottom: 1px solid var(--border-color); background: rgba(0,0,0,0.01); }
         .chat-menu-trigger-btn { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-color); display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 50%; transition: 0.2s; }
         .chat-menu-trigger-btn:hover { background: rgba(0,0,0,0.04); }
@@ -214,10 +214,11 @@
         .bubble-user { background: var(--chat-user-bg); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
         .bubble-ai { background: var(--chat-ai-bg); color: var(--text-color); align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid var(--border-color); width: 100%; }
         
-        .chat-input-area { display: flex; gap: 10px; padding: 15px; border-top: 1px solid var(--border-color); background: rgba(0,0,0,0.01); }
-        .chat-input-area input { flex: 1; padding: 14px 22px; border-radius: 30px; border: 1px solid var(--border-color); background: var(--sidebar-bg); color: var(--text-color); font-size: 15px; outline: none; box-shadow: 0 4px 12px var(--shadow-color); transition: border 0.3s; }
+        /* મોબાઇલ અને ડેસ્કટોપ બંને માટે સેન્ડ બટન ક્યારેય ગાયબ નહિ થાય */
+        .chat-input-area { display: flex; gap: 10px; padding: 12px; border-top: 1px solid var(--border-color); background: rgba(0,0,0,0.01); width: 100%; align-items: center; box-sizing: border-box; }
+        .chat-input-area input { flex: 1; min-width: 0; padding: 12px 18px; border-radius: 30px; border: 1px solid var(--border-color); background: var(--sidebar-bg); color: var(--text-color); font-size: 15px; outline: none; box-shadow: 0 4px 12px var(--shadow-color); transition: border 0.3s; }
         .chat-input-area input:focus { border-color: #4f46e5; }
-        .chat-send-btn { background: var(--primary-gradient); color: white; border: none; width: 48px; height: 48px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: 0 4px 12px var(--glow-color); flex-shrink: 0; transition: transform 0.2s; }
+        .chat-send-btn { background: var(--primary-gradient); color: white; border: none; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; box-shadow: 0 4px 12px var(--glow-color); flex-shrink: 0; transition: transform 0.2s; }
         .chat-send-btn:hover { transform: scale(1.08); }
 
         /* DICTIONARY RESULTS CARD */
